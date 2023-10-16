@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Usuarios } from "./Usuarios";
 import { v4 as uuid } from "uuid";
 import { Link, useNavigate } from "react-router-dom";
+import {API} from "./Home.jsx";
 
 function CrearUsuario() {
     const [name, setName] = useState("");
@@ -38,7 +39,7 @@ function CrearUsuario() {
 
             // Realizar la solicitud POST al servidor
         try {
-            const response = await fetch('http://localhost:3001/usuarios/crear-usuario', {
+            const response = await fetch(API+'/usuarios/crear-usuario', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json', // Asegúrate de especificar el tipo de contenido JSON

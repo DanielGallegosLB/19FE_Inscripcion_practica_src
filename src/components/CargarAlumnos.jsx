@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {API} from "./Home.jsx";
 
 
 function CargarAlumnos() {
@@ -44,7 +45,7 @@ function CargarAlumnos() {
         formData.append('archivo', file);
 
         try {
-          const response = await fetch('http://localhost:3001/alumnos/subir-csv', {
+          const response = await fetch(API+'/alumnos/subir-csv', {
             method: 'POST',
             body: formData,
           });

@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Usuarios } from "./Usuarios";
 import { Link, useNavigate } from "react-router-dom";
 import { set } from "mongoose";
+import {API} from "./Home.jsx";
 
 function UsuarioEditar() {
     const [id, setId] = useState("");
@@ -17,7 +18,7 @@ function UsuarioEditar() {
 
     const getUsuarios = async () => {
         try {
-            const response = await fetch('http://localhost:3001/obtener-usuarios'); // Ruta para obtener usuarios
+            const response = await fetch(API+'/obtener-usuarios'); // Ruta para obtener usuarios
             const data =  await response.json();
             setUsuarios(data.usuarios);
             
@@ -51,7 +52,7 @@ function UsuarioEditar() {
           RUT: rut,
         };
       
-        fetch(`http://localhost:3001/usuarios/editar-usuario/${id}`, {
+        fetch(API+`/usuarios/editar-usuario/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

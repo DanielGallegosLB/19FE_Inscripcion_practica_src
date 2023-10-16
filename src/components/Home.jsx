@@ -3,6 +3,7 @@ import { Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Usuarios } from "./Usuarios";
 import { Link, useNavigate } from "react-router-dom";
+const API = "https://19-backend.danielgallegosw.repl.co"
 
 function Home() {
     let history = useNavigate();
@@ -12,7 +13,7 @@ function Home() {
 
     const getUsuarios = async () => {
         try {
-            const response = await fetch('http://localhost:3001/usuarios/obtener-usuarios'); // Ruta para obtener usuarios
+            const response = await fetch(API+'/usuarios/obtener-usuarios'); // Ruta para obtener usuarios
             const data = await response.json();
             setUsuarios(data.usuarios);
         } catch (error) {
@@ -37,7 +38,7 @@ function Home() {
     const handleDelete = async (id) => {
         // Realizar la solicitud DELETE al servidor
         try {
-          const response = await fetch(`http://localhost:3001/usuarios/eliminar-usuario/${id}`, {
+          const response = await fetch(API+`/usuarios/eliminar-usuario/${id}`, {
             method: 'DELETE',
           });
       
@@ -101,4 +102,4 @@ function Home() {
     );
 }
 
-export { Home };
+export { Home , API};
