@@ -26,21 +26,7 @@ function UsuarioEditar() {
             console.error('Error de red:', error);
         }
     }
-
     
-
-    const getUsuarioById = (userId) => {
-        const user = usuarios.find((user) => user._id === userId);
-        if (user) {
-          setId(user._id);
-          setName(user.NOMBRES);
-          setPassword(user.CONTRASEÑA);
-          setPermissions(user.PERMISOS.join(', '));
-          setRut(user.RUT);
-        }
-      }
-    
-
     const handleUpdate = (e) => {
         e.preventDefault();
       
@@ -88,7 +74,7 @@ function UsuarioEditar() {
         setPassword(storedPassword);
         setPermissions(storedPermissions);
         setRut(storedRut);
-        getUsuarioById(storedId); // Cargar detalles del usuario por ID
+         
       }, []);
 
 

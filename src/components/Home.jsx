@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Usuarios } from "./Usuarios";
 import { Link, useNavigate } from "react-router-dom";
-const API = "https://19-backend.danielgallegosw.repl.co"
+const API = "http://localhost:3001"
+// https://19-backend.danielgallegosw.repl.co
 
 function Home() {
     let history = useNavigate();

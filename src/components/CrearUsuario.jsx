@@ -15,19 +15,6 @@ function CrearUsuario() {
 
     let history = useNavigate();
 
-    const handleSave = (e) => {
-        e.preventDefault();
-        const newUser = {
-            id: uuid(),
-            name: name,
-            email: rut,
-            password: password,
-            permissions: permissions,
-        };
-        Usuarios.push(newUser);
-        history("/");
-    };
-
     const handleUserCreate = async (e) => {
          e.preventDefault();
          const newUser = {
