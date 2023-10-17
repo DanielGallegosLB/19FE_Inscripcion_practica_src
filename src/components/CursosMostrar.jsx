@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
-const API = "http://localhost:3001"
+import {API} from "./Home.jsx";
 
 function CursosMostrar() {
     const [cursos, setCursos] = useState([]);
