@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Usuarios } from "./Usuarios";
 import { Link, useNavigate } from "react-router-dom";
 import { set } from "mongoose";
 import { API } from "./Home.jsx";

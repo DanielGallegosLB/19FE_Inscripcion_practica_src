@@ -7,6 +7,7 @@ import { CursosMostrar } from './components/CursosMostrar';
 import { CursosEditar } from './components/CursosEditar';
 import { CursosCrear } from './components/CursosCrear';
 import { CargarFormatos } from './components/CargarFormatos';
+import { FormAlumnos } from './components/FormAlumnos.jsx';
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 export default function App() {
@@ -27,6 +28,9 @@ export default function App() {
           <Link to="/formatos">
             <button>Crear Formato</button>
           </Link>
+          <Link to="/formalumnos">
+            <button>Llenar formulario alumno</button>
+          </Link>
         </div>
               
         
@@ -39,6 +43,7 @@ export default function App() {
           <Route path="/cursos/crear" element={<CursosCrear />} />
           <Route path="/cursos/editar" element={<CursosEditar />} />
           <Route path="/formatos" element={<CargarFormatos />} />
+          <Route path="/formalumnos" element={<FormAlumnos />} />
         </Routes>
       </Router>
     </div>

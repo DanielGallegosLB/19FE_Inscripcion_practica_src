@@ -2,8 +2,8 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
-// const API = "http://localhost:3001"
-const API = "https://19-backend.danielgallegosw.repl.co"
+const API = "http://localhost:3001"
+//const API = "https://19-backend.danielgallegosw.repl.co"
 
 function Home() {
     let history = useNavigate();
@@ -25,12 +25,12 @@ function Home() {
         getUsuarios();
     }, []);
 
-    const handleEdit = (id, name, password, permissions, rut) => {
+    const handleEdit = (id, name, password, permissions) => {
         localStorage.setItem("id", id);
         localStorage.setItem("name", name);
         localStorage.setItem("password", password);
         localStorage.setItem("permissions", permissions);
-        localStorage.setItem("rut", rut);
+
 
         history("/edit")
     }
@@ -67,7 +67,7 @@ function Home() {
                             <th>Nombre</th>
                             <th>Contraseña</th>
                             <th>Permisos</th>
-                            <th>Rut</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -78,10 +78,9 @@ function Home() {
                                     <td>{u.NOMBRES}</td>
                                     <td>{u.CONTRASEÑA}</td>
                                     <td>{u.PERMISOS.join(', ')}</td>
-                                    <td>{u.RUT}</td>
                                     <td>
                                         <Link to="/edit">
-                                            <Button onClick={() => handleEdit(u._id, u.NOMBRES, u.CONTRASEÑA, u.PERMISOS, u.RUT)}>Editar</Button>
+                                            <Button onClick={() => handleEdit(u._id, u.NOMBRES, u.CONTRASEÑA, u.PERMISOS)}>Editar</Button>
                                         </Link>
                                         <Button onClick={() => handleDelete(u._id)}>Eliminar</Button>
                                     </td>

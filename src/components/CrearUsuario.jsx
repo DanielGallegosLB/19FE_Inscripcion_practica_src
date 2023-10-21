@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Usuarios } from "./Usuarios";
-import { v4 as uuid } from "uuid";
 import { Link, useNavigate } from "react-router-dom";
 import {API} from "./Home.jsx";
 
