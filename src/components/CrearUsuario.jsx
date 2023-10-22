@@ -6,7 +6,6 @@ import {API} from "./Home.jsx";
 
 function CrearUsuario() {
     const [name, setName] = useState("");
-    const [rut, setRut] = useState("");
     const [password, setPassword] = useState("");
     const [permissions, setPermissions] = useState("");
 
@@ -18,8 +17,7 @@ function CrearUsuario() {
          const newUser = {
             NOMBRES: name,
             CONTRASEÑA: password,
-            PERMISOS: permissions,
-            RUT: rut,            
+            PERMISOS: permissions,          
         };
 
             // Realizar la solicitud POST al servidor
@@ -48,16 +46,11 @@ function CrearUsuario() {
 
 
     return (
-        <div style={{ margin: "15rem" }}>
+        <div style={{ margin: "7rem" }}>
             <Form>
                 <Form.Group className="mb-3" controlId="name">
                     <Form.Label>Nombre</Form.Label>
                     <Form.Control type="text" placeholder="Ingrese nombre" required onChange={(e) => setName(e.target.value)} />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="email">
-                    <Form.Label>Rut</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese rut" required onChange={(e) => setRut(e.target.value)}/>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="password">
