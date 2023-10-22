@@ -9,7 +9,6 @@ function UsuarioEditar() {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [permissions, setPermissions] = useState("");
-    const [rut, setRut] = useState("");
     const [usuarios, setUsuarios] = useState([]);
 
     let history = useNavigate();
@@ -33,7 +32,6 @@ function UsuarioEditar() {
           NOMBRES: name,
           CONTRASEÑA: password,
           PERMISOS: permissions,
-          RUT: rut,
         };
       
         fetch(API+`/usuarios/editar-usuario/${id}`, {
@@ -64,15 +62,13 @@ function UsuarioEditar() {
         const storedName = localStorage.getItem("name") || "";
         const storedPassword = localStorage.getItem("password") || "";
         const storedPermissions = localStorage.getItem("permissions") || ""; // Esto es una cadena
-        const storedRut = localStorage.getItem("rut") || "";
     
 
         setId(storedId);
         setName(storedName);
         setPassword(storedPassword);
         setPermissions(storedPermissions);
-        setRut(storedRut);
-         
+
       }, []);
 
 
@@ -97,11 +93,6 @@ function UsuarioEditar() {
                 <Form.Group className="mb-3" controlId="permissions">
                     <Form.Label>Permisos</Form.Label>
                     <Form.Control type="list" placeholder="Ingrese permisos (separados por coma)" value={permissions} required onChange={(e) => setPermissions(e.target.value)}/>
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="rut">
-                    <Form.Label>Rut</Form.Label>
-                    <Form.Control type="list" placeholder="Ingrese rut" value={rut} required onChange={(e) => setRut(e.target.value)}/>
                 </Form.Group>
                 
                     <Button variant="primary" onClick={(e) => handleUpdate(e)}>
