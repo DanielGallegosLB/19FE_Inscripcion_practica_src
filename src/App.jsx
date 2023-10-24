@@ -8,44 +8,49 @@ import { CursosEditar } from './components/CursosEditar';
 import { CursosCrear } from './components/CursosCrear';
 import { CargarFormatos } from './components/CargarFormatos';
 import { FormAlumnos } from './components/FormAlumnos.jsx';
+import { IniciarSesion } from './components/IniciarSesion.jsx';
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { Layout } from './components/Layout';
+import { Unauthorized } from './components/Unauthorized';
+import { Missing } from './components/Missing.jsx';
+import { Registrarse } from './components/Registrarse.jsx';
+import { RequireAuth } from './components/RequireAuth';
+
 
 export default function App() {
   return (
-    <div className="App">
-      
-      <Router>
-      <div>
-          <Link to="/">
-            <button>Home</button>
-          </Link>
-          <Link to="/cargaralumnos">
-            <button>Cargar Alumnos</button>
-          </Link>
-          <Link to="/cursos">
-            <button>Cursos</button>
-          </Link>
-          <Link to="/formatos">
-            <button>Crear Formato</button>
-          </Link>
-          <Link to="/formalumnos">
-            <button>Llenar formulario alumno</button>
-          </Link>
-        </div>
-              
+    <Routes>
+      <Route path="/" element={<Layout />} >
+        {/* Publicas */}
+        <Route path="/iniciar-sesion" element={<IniciarSesion/>} />
+        <Route path="/registrarse" element={<Registrarse />} />
+        <Route path="unauthorized" element={<Unauthorized />} />
         
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/create" element={<CrearUsuario />} />
-          <Route path="/edit" element={<UsuarioEditar />} />
-          <Route path="/cargaralumnos" element={<CargarAlumnos />} />
-          <Route path="/cursos" element={<CursosMostrar />} />
-          <Route path="/cursos/crear" element={<CursosCrear />} />
-          <Route path="/cursos/editar" element={<CursosEditar />} />
-          <Route path="/formatos" element={<CargarFormatos />} />
-          <Route path="/formalumnos" element={<FormAlumnos />} />
-        </Routes>
-      </Router>
-    </div>
+        {/* Administrador */}
+        <Route element={<RequireAuth />}>
+        <Route path="/home" element={<Home />} />
+        <Route path="/create" element={<CrearUsuario />} />
+        <Route path="/edit" element={<UsuarioEditar />} />
+        <Route path="/cursos" element={<CursosMostrar />} />
+        <Route path="/cursos/crear" element={<CursosCrear />} />
+        <Route path="/cursos/editar" element={<CursosEditar />} />
+        <Route path="/formatos" element={<CargarFormatos />} />
+        <Route path="/formalumnos" element={<FormAlumnos />} />
+        <Route path="/cargaralumnos" element={<CargarAlumnos />} />
+        </Route>
+        {/* Director */}
+        {/* Profesor */}
+        <Route path="/cargaralumnos" element={<CargarAlumnos />} />
+        {/* Alumno */}
+        {/* Supervisor */}
+
+        {/* 404 */}
+        <Route path="*" element={<Missing />} />
+        
+        
+        
+        
+      </Route>
+    </Routes>
   );
 }

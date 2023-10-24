@@ -2,15 +2,13 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
-//const API = "http://localhost:3001"
+const API = "http://localhost:3001"
 //const API = "https://19-backend.danielgallegosw.repl.co"
-const API = "https://one9backend.onrender.com"
+//const API = "https://one9backend.onrender.com"
 
 function Home() {
     let history = useNavigate();
     const [usuarios, setUsuarios] = useState([]);
-
-
 
     const getUsuarios = async () => {
         try {
@@ -31,8 +29,6 @@ function Home() {
         localStorage.setItem("name", name);
         localStorage.setItem("password", password);
         localStorage.setItem("permissions", permissions);
-
-
         history("/edit")
     }
 
@@ -56,9 +52,26 @@ function Home() {
         }
       }
       
-
     return (
         <Fragment>
+                      <Link to="/">
+            <button>Home</button>
+          </Link>
+          <Link to="/cargaralumnos">
+            <button>Cargar Alumnos</button>
+          </Link>
+          <Link to="/cursos">
+            <button>Cursos</button>
+          </Link>
+          <Link to="/formatos">
+            <button>Crear Formato</button>
+          </Link>
+          <Link to="/formalumnos">
+            <button>Llenar formulario alumno</button>
+          </Link>
+          <Link to="/iniciar-sesion">
+            <button>Iniciar Sesion</button>
+          </Link>
             <div style={{ margin: "1rem" }}>
             <h1>Usuarios</h1>
                 <Table striped bordered hover size={"sm"}>
@@ -68,7 +81,6 @@ function Home() {
                             <th>Nombre</th>
                             <th>Contraseña</th>
                             <th>Permisos</th>
-
                         </tr>
                     </thead>
                     <tbody>
