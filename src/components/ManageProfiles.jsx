@@ -4,9 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
-const API = "http://localhost:3001"
-//const API = "https://19-backend.danielgallegosw.repl.co"
-//const API = "https://one9backend.onrender.com"
+import { API } from "./Home.jsx";
 
 function ManageProfiles() {
   let history = useNavigate();
