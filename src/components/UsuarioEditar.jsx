@@ -45,7 +45,7 @@ function UsuarioEditar() {
             if (response.status === 200) {
               console.log('Usuario actualizado exitosamente');
               // Redirige a la página de inicio u otra acción después de la actualización
-              history("/");
+              history("/manageprofiles");
             } else {
               console.error('Error al actualizar el usuario');
             }
@@ -53,7 +53,7 @@ function UsuarioEditar() {
           .catch((error) => {
             console.error('Error de red:', error);
           });
-          //history("/");
+          history("/manageprofiles");
       };
 
       useEffect(() => {

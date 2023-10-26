@@ -15,6 +15,7 @@ import { Unauthorized } from './components/Unauthorized';
 import { Missing } from './components/Missing.jsx';
 import { Registrarse } from './components/Registrarse.jsx';
 import { RequireAuth } from './components/RequireAuth';
+import { ManageProfiles } from './components/ManageProfiles.jsx';
 
 
 export default function App() {
@@ -25,10 +26,12 @@ export default function App() {
         <Route path="/iniciar-sesion" element={<IniciarSesion/>} />
         <Route path="/registrarse" element={<Registrarse />} />
         <Route path="unauthorized" element={<Unauthorized />} />
+        <Route path="/" element={<Home />} />
         
         {/* Administrador */}
-        <Route element={<RequireAuth />}>
-        <Route path="/home" element={<Home />} />
+        <Route element={<RequireAuth allowedRoles={["admin"]} />}>
+        
+        <Route path="/manageprofiles" element={<ManageProfiles />} />
         <Route path="/create" element={<CrearUsuario />} />
         <Route path="/edit" element={<UsuarioEditar />} />
         <Route path="/cursos" element={<CursosMostrar />} />
@@ -40,16 +43,16 @@ export default function App() {
         </Route>
         {/* Director */}
         {/* Profesor */}
+        <Route element={<RequireAuth allowedRoles={["profesor"]} />}>
         <Route path="/cargaralumnos" element={<CargarAlumnos />} />
+
+        </Route>
+        
         {/* Alumno */}
         {/* Supervisor */}
 
         {/* 404 */}
         <Route path="*" element={<Missing />} />
-        
-        
-        
-        
       </Route>
     </Routes>
   );

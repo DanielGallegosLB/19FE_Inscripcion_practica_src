@@ -7,7 +7,7 @@ import {API} from "./Home.jsx";
 function CrearUsuario() {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
-    const [permissions, setPermissions] = useState("");
+    const [roles, setRoles] = useState("");
 
 
     let history = useNavigate();
@@ -17,7 +17,7 @@ function CrearUsuario() {
          const newUser = {
             NOMBRES: name,
             CONTRASEÑA: password,
-            PERMISOS: permissions,          
+            ROLES: roles,          
         };
 
             // Realizar la solicitud POST al servidor
@@ -41,7 +41,7 @@ function CrearUsuario() {
             } catch (error) {
             console.error('Error de red:', error);
             }        
-         history("/");
+         history("/manageprofiles");
     }
 
 
@@ -59,8 +59,8 @@ function CrearUsuario() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="permissions">
-                    <Form.Label>Permisos</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese permisos" required onChange={(e) => setPermissions(e.target.value)}/>
+                    <Form.Label>Roles</Form.Label>
+                    <Form.Control type="text" placeholder="Ingrese Roles" required onChange={(e) => setRoles(e.target.value)}/>
                 </Form.Group>
                 <Link to={"/"}>
                     <Button variant="primary" onClick={(e) => handleUserCreate(e)}>

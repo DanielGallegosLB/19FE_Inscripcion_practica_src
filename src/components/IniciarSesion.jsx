@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import {API} from './Home'
 
-const LOGIN_URL = API+'/auth';
+const LOGIN_URL = API+'/usuarios/auth';
 
 function IniciarSesion() {
     const { setAuth } = useAuth();
@@ -29,40 +29,41 @@ function IniciarSesion() {
     }, [user, pwd])
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-      
-        try {
-          const response = await fetch(LOGIN_URL, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ nombre: user, contraseña: pwd }), // Ajusta los nombres de usuario y contraseña
-            credentials: 'include', // Usar 'include' para enviar y recibir cookies en la solicitud
-          });
-      
-          if (response.status === 200) {
-            // Autenticación exitosa
-            const data = await response.json();
-            const accessToken = data.accessToken;
-            const roles = data.roles;
-            setAuth({ user, pwd, roles, accessToken });
-            setUser('');
-            setPwd('');
-            navigate(from, { replace: true });
-          } else if (response.status === 404) {
-            // Usuario no encontrado
-            setErrMsg('Usuario no encontrado');
-          } else {
-            // Otros errores
-            setErrMsg('Error en la autenticación');
-          }
-        } catch (err) {
-          // Error de red u otros errores
+      e.preventDefault();
+    
+      try {
+        const response = await fetch(LOGIN_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ nombre: user, contraseña: pwd }), // Ajusta los nombres de usuario y contraseña
+        });
+    
+        if (response.status === 200) {
+          // Autenticación exitosa
+          const data = await response.json();
+          const accessToken = data.accessToken;
+          const roles = data.ROLES; // Ajusta la propiedad de roles según la respuesta del servidor
+    
+          setAuth({ user, pwd, roles, accessToken });
+          setUser('');
+          setPwd('');
+          navigate(from, { replace: true });
+        } else if (response.status === 404) {
+          // Usuario no encontrado
+          setErrMsg('Usuario no encontrado');
+        } else {
+          // Otros errores
           setErrMsg('Error en la autenticación');
-          errRef.current.focus();
         }
-      };
+      } catch (err) {
+        // Error de red u otros errores
+        setErrMsg('Error en la autenticación');
+        errRef.current.focus();
+      }
+    };
+    
       
 
 

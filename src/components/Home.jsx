@@ -24,11 +24,11 @@ function Home() {
         getUsuarios();
     }, []);
 
-    const handleEdit = (id, name, password, permissions) => {
+    const handleEdit = (id, name, password, roles) => {
         localStorage.setItem("id", id);
         localStorage.setItem("name", name);
         localStorage.setItem("password", password);
-        localStorage.setItem("permissions", permissions);
+        localStorage.setItem("roles", roles);
         history("/edit")
     }
 
@@ -53,8 +53,8 @@ function Home() {
       }
       
     return (
-        <Fragment>
-                      <Link to="/">
+        <div>
+          <Link to="/">
             <button>Home</button>
           </Link>
           <Link to="/cargaralumnos">
@@ -72,45 +72,10 @@ function Home() {
           <Link to="/iniciar-sesion">
             <button>Iniciar Sesion</button>
           </Link>
-            <div style={{ margin: "1rem" }}>
-            <h1>Usuarios</h1>
-                <Table striped bordered hover size={"sm"}>
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Nombre</th>
-                            <th>Contraseña</th>
-                            <th>Permisos</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {usuarios.length > 0 ? (
-                            usuarios.map((u, index) => (
-                                <tr key={index}>
-                                    <td>{u._id}</td>
-                                    <td>{u.NOMBRES}</td>
-                                    <td>{u.CONTRASEÑA}</td>
-                                    <td>{u.PERMISOS.join(', ')}</td>
-                                    <td>
-                                        <Link to="/edit">
-                                            <Button onClick={() => handleEdit(u._id, u.NOMBRES, u.CONTRASEÑA, u.PERMISOS)}>Editar</Button>
-                                        </Link>
-                                        <Button onClick={() => handleDelete(u._id)}>Eliminar</Button>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan={5}>No hay usuarios</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </Table>
-                <Link className="d-grid gap-2" to="/create">
-                    <Button size="lg">Crear</Button>
-                </Link>
-            </div>
-        </Fragment>
+          <Link to="/manageprofiles">
+            <button>Manage Profiles</button>
+          </Link>
+        </div>
     );
 }
 
