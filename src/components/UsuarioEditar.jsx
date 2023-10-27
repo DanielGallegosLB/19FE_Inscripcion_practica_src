@@ -8,21 +8,10 @@ function UsuarioEditar() {
     const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
-    const [permissions, setPermissions] = useState("");
-    const [usuarios, setUsuarios] = useState([]);
+    const [perfil, setPerfil] = useState("");
 
     let history = useNavigate();
 
-    const getUsuarios = async () => {
-        try {
-            const response = await fetch(API+'/obtener-usuarios'); // Ruta para obtener usuarios
-            const data =  await response.json();
-            setUsuarios(data.usuarios);
-            
-        } catch (error) {
-            console.error('Error de red:', error);
-        }
-    }
     
     const handleUpdate = (e) => {
         e.preventDefault();
@@ -31,7 +20,7 @@ function UsuarioEditar() {
         const updatedUser = {
           NOMBRES: name,
           CONTRASEÑA: password,
-          PERMISOS: permissions,
+          PERFIL: perfil,
         };
       
         fetch(API+`/usuarios/editar-usuario/${id}`, {
@@ -57,17 +46,16 @@ function UsuarioEditar() {
       };
 
       useEffect(() => {
-        getUsuarios();
         const storedId = localStorage.getItem("id") || "";
         const storedName = localStorage.getItem("name") || "";
         const storedPassword = localStorage.getItem("password") || "";
-        const storedPermissions = localStorage.getItem("permissions") || ""; // Esto es una cadena
+        const storedPerfil = localStorage.getItem("perfil") || ""; // Esto es una cadena
     
 
         setId(storedId);
         setName(storedName);
         setPassword(storedPassword);
-        setPermissions(storedPermissions);
+        setPerfil(storedPerfil);
 
       }, []);
 
@@ -91,8 +79,8 @@ function UsuarioEditar() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="permissions">
-                    <Form.Label>Permisos</Form.Label>
-                    <Form.Control type="list" placeholder="Ingrese permisos (separados por coma)" value={permissions} required onChange={(e) => setPermissions(e.target.value)}/>
+                    <Form.Label>Perfil</Form.Label>
+                    <Form.Control type="list" placeholder="Ingrese permisos (separados por coma)" value={perfil} required onChange={(e) => setPerfil(e.target.value)}/>
                 </Form.Group>
                 
                     <Button variant="primary" onClick={(e) => handleUpdate(e)}>

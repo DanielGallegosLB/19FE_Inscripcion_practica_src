@@ -37,16 +37,16 @@ function IniciarSesion() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ nombre: user, contraseña: pwd }), // Ajusta los nombres de usuario y contraseña
+          body: JSON.stringify({ nombre: user, contraseña: pwd }), 
         });
     
         if (response.status === 200) {
           // Autenticación exitosa
           const data = await response.json();
           const accessToken = data.accessToken;
-          const roles = data.ROLES; // Ajusta la propiedad de roles según la respuesta del servidor
+          const perfil = data.PERFIL; 
     
-          setAuth({ user, pwd, roles, accessToken });
+          setAuth({ user, pwd, perfil, accessToken });
           setUser('');
           setPwd('');
           navigate(from, { replace: true });
