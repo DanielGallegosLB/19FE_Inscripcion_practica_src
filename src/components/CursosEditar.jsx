@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import { set } from "mongoose";
-import { API } from "./Home.jsx";
+import { API } from "./../apiSelection";
 
 function CursosEditar() {
     const [id, setId] = useState("");

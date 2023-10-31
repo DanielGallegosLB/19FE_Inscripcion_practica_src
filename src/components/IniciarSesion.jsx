@@ -3,9 +3,9 @@ import {useAuth} from '../hooks/useAuth';
 import { Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import {API} from './Home'
+import { API } from "./../apiSelection";
 
-const LOGIN_URL = API+'/usuarios/auth';
+
 
 function IniciarSesion() {
     const { setAuth } = useAuth();
@@ -32,7 +32,9 @@ function IniciarSesion() {
       e.preventDefault();
     
       try {
-        const response = await fetch(LOGIN_URL, {
+        
+
+        const response = await fetch(API+'/usuarios/auth', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

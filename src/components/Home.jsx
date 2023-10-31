@@ -2,9 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
-const API = "http://localhost:3001"
-//const API = "https://19-backend.danielgallegosw.repl.co"
-//const API = "https://one9backend.onrender.com"
 
 function Home() {
     return (
@@ -30,8 +27,11 @@ function Home() {
           <Link to="/manageprofiles">
             <button>Manage Profiles</button>
           </Link>
+          <Link to="/usersmanage">
+            <button>Users Manage</button>
+          </Link>
         </div>
     );
 }
 
-export { Home , API};
+export { Home };

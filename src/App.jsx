@@ -16,41 +16,9 @@ import { Missing } from './components/Missing.jsx';
 import { Registrarse } from './components/Registrarse.jsx';
 import { RequireAuth } from './components/RequireAuth';
 import { ManageProfiles } from './components/ManageProfiles.jsx';
-
+import { UsersManage } from './components/UsersManage.jsx';
 
 export default function App() {
-  const localAPI = "http://localhost:3001";
-  const remoteAPI1 = "https://one9backend.onrender.com";
-  const remoteAPI2 = "https://19-backend.danielgallegosw.repl.co";
-
-  const APIs = [localAPI, remoteAPI1, remoteAPI2];
-
-  async function checkAPIs() {
-    for (const api of APIs) {
-      try {
-        const response = await fetch(`${api}/ping`);
-        if (response.status === 200) {
-          return api; 
-        }
-      } catch (error) {
-        console.log(`Fallo al conectar a ${api}`);
-      }
-    }
-    return null; 
-  }
-  checkAPIs()
-    .then((selectedAPI) => {
-      if (selectedAPI) {
-        console.log(`API seleccionada: ${selectedAPI}`);
-      } else {
-        console.log("No se pudo conectar a ninguna API.");
-      }
-    })
-    .catch((error) => {
-      console.error("Error al verificar las API:", error);
-    });
-
-
   return (
     <Routes>
       <Route path="/" element={<Layout />} >
@@ -61,12 +29,9 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/manageprofiles" element={<ManageProfiles />} />
 
-        {/* Administrador */}
-        <Route element={<RequireAuth allowedRoles={["Administrador"]} />}>
-
-
-          <Route path="/create" element={<CrearUsuario />} />
-          <Route path="/edit" element={<UsuarioEditar />} />
+        {/* Crud usuarios */}
+        <Route element={<RequireAuth modulo={["IP_1"]} />}>
+          
           <Route path="/cursos" element={<CursosMostrar />} />
           <Route path="/cursos/crear" element={<CursosCrear />} />
           <Route path="/cursos/editar" element={<CursosEditar />} />
@@ -74,17 +39,24 @@ export default function App() {
           <Route path="/formalumnos" element={<FormAlumnos />} />
           <Route path="/cargaralumnos" element={<CargarAlumnos />} />
         </Route>
-        {/* Director */}
-        {/* Profesor */}
-        <Route element={<RequireAuth allowedRoles={["profesor"]} />}>
+        {/* CRUD Curso */}
+        <Route element={<RequireAuth modulo={["IP_2"]} />}>
+        </Route>
+    
+        <Route element={<RequireAuth modulo={["profesor"]} />}>
           <Route path="/cargaralumnos" element={<CargarAlumnos />} />
 
         </Route>
+        
 
-        {/* Alumno */}
-        {/* Supervisor */}
-        <Route element={<RequireAuth allowedRoles={["supervisor"]} />}>
 
+        <Route element={<RequireAuth modulo={["supervisor"]} />}>
+
+        </Route>
+        <Route element={<RequireAuth modulo={["IP_1"]} />}>
+        <Route path='/usersmanage' element={<UsersManage />} />
+        <Route path="/create" element={<CrearUsuario />} />
+        <Route path="/edit" element={<UsuarioEditar />} />
         </Route>
 
         {/* 404 */}
@@ -93,3 +65,4 @@ export default function App() {
     </Routes>
   );
 }
+

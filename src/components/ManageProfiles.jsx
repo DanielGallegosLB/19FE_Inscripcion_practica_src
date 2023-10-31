@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { API } from "./Home.jsx";
+import { API } from "./../apiSelection";
 
 function ManageProfiles() {
   let history = useNavigate();
@@ -72,6 +72,7 @@ function ManageProfiles() {
       console.error('Error de red:', error);
     }
   }
+
   getPerfiles();
   useEffect(() => {
     getUsuarios();

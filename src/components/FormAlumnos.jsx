@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
-import { API } from "./Home.jsx";
+import { API } from "./../apiSelection";
 
 function FormAlumnos() {
     const [datosAlumno, setDatosAlumno] = useState({
