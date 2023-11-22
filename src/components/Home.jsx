@@ -6,17 +6,15 @@ import { Link, useNavigate } from "react-router-dom";
 function Home() {
     return (
         <div>
+          <h1>Inscripción Práctica</h1>
           <Link to="/">
-            <button>Home</button>
+            <button>Inicio</button>
           </Link>
           <Link to="/cargaralumnos">
             <button>Cargar Alumnos</button>
           </Link>
           <Link to="/cursos">
             <button>Cursos</button>
-          </Link>
-          <Link to="/formatos">
-            <button>Crear Formato</button>
           </Link>
           <Link to="/formalumnos">
             <button>Llenar formulario alumno</button>
@@ -29,6 +27,15 @@ function Home() {
           </Link>
           <Link to="/usersmanage">
             <button>Users Manage</button>
+          </Link>
+          <Link to="/formatos/manejar">
+            <button>Manejar Formatos</button>
+          </Link>
+          <Link to="/formatos">
+            <button>Descargar formatos</button>
+          </Link>
+          <Link to="/informe">
+            <button>Subir informe</button>
           </Link>
         </div>
     );

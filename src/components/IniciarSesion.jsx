@@ -4,6 +4,7 @@ import { Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { API } from "./../apiSelection";
+import { set } from "mongoose";
 
 
 
@@ -18,6 +19,7 @@ function IniciarSesion() {
 
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
+    const [id, setId] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
     useEffect(() => {
@@ -47,10 +49,14 @@ function IniciarSesion() {
           const data = await response.json();
           const accessToken = data.accessToken;
           const perfil = data.PERFIL; 
+          const id = data._id;
+          console.log("data: "+data)
+          console.log("id: "+id)
     
-          setAuth({ user, pwd, perfil, accessToken });
+          setAuth({ id, user, pwd, perfil, accessToken });
           setUser('');
           setPwd('');
+          setId('');
           navigate(from, { replace: true });
         } else if (response.status === 404) {
           // Usuario no encontrado

@@ -20,7 +20,6 @@ function UsersManage() {
         }
       }
 
-      
     const handleEdit = (id, name, password, perfil) => {
         localStorage.setItem("id", id);
         localStorage.setItem("name", name);
@@ -29,13 +28,12 @@ function UsersManage() {
         history("/edit")
       }
 
-      getPerfiles();
+ 
       useEffect(() => {
         getUsuarios();
       }, [])
 
       const handleDelete = async (id) => {
-        // Realizar la solicitud DELETE al servidor
         try {
           const response = await fetch(API + `/usuarios/eliminar-usuario/${id}`, {
             method: 'DELETE',
@@ -43,8 +41,7 @@ function UsersManage() {
     
           if (response.status === 200) {
             console.log('Usuario eliminado exitosamente');
-            // Vuelve a cargar la lista de usuarios después de eliminar uno
-            getPerfiles();
+            getUsuarios();
           } else {
             console.error('Error al eliminar el usuario');
           }
