@@ -28,6 +28,7 @@ async function isAnswering(API) {
       return true;
     }
   } catch (error) {
+    console.log(`Fallo al conectar a ${API}`);
     return false;
   }
 }
@@ -37,8 +38,12 @@ const storedAPI = localStorage.getItem("selectedAPI");
 
 // Si hay una API almacenada, úsala; además, realiza la verificación
 let API;
-if (await isAnswering(storedAPI) ) {
+if (storedAPI !== null) {
+  await isAnswering(storedAPI) 
+  
   API = storedAPI;
+  console.log(`storedAPI: ${storedAPI}`);
+  console.log(`API: ${API}`);
   console.log(`API almacenada localmente: ${API}`);
 } else {
   if (await isAnswering(localAPI)) {
