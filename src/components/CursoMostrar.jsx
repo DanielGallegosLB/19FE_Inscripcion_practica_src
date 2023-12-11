@@ -1,13 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Link, useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { Fragment, useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Link,useNavigate } from "react-router-dom";
 import { API } from "./../apiSelection";
 import { useAuth } from "../hooks/useAuth";
+import { NavbarPortalProfesor } from "./NavbarPortalProfesor";
 
-
-function CargarAlumnos() {
-  const [csvData, setCsvData] = useState([]);
+function CursoMostrar() {
+    const [csvData, setCsvData] = useState([]);
   const [file, setFile] = useState(null);
   const [curso, setCurso] = useState(null);
   const [actualizarCurso, setActualizarCurso] = useState(false);
@@ -66,7 +66,7 @@ function CargarAlumnos() {
   const handleFileUpload = async () => {
     try {
       const formData = new FormData();
-      formData.append('archivo', file); // Cambiar 'file' por el nombre del archivo que estás manejando
+      formData.append('archivo', file); 
 
       const response = await fetch(`/subir-csv/${curso.curso._id}`, {
         method: 'POST',
@@ -115,8 +115,38 @@ function CargarAlumnos() {
     }
   };
 
+  /*
+  Buscar informe por rut 
+  asignar link de descarga a alumno
+
+  Nota informe debe haber un campo de texto para ingresar la nota
+  boton calificar guarda la nota en informe y en alumno
+  */
+
+  const getinformes = async () => {
+    // Por cada alumno buscar informe por su rut
+    for (let i = 0; i < curso.curso.ALUMNOS.length; i++) {
+      const rut = curso.curso.ALUMNOS[i].RUT;
+      const response = await fetch(API + `/informes/obtener_por_rut/${rut}`);
+      const data = await response.json();
+        curso.curso.ALUMNOS[i].LINKINFORME = data.linkDescarga;
+      
+    }
+
+
+    try {
+      const response = await fetch(API + `/informes/obtener_por_rut/`);
+      const data = await response.json();
+      setInformes(data.informes);
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
+  }
+
+
   return (
-    <div className="container my-4">
+    <div className="container my-1">
+        <NavbarPortalProfesor />
       {curso && curso.curso && (
         <div>
           <div className="d-sm-block">
@@ -147,6 +177,8 @@ function CargarAlumnos() {
                 <th>NRC</th>
                 <th>ACI</th>
                 <th>Periodo</th>
+                <th>Link Informe</th>
+                <th>Nota Informe</th> 
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -170,6 +202,9 @@ function CargarAlumnos() {
                   <td>{alumno.ACI}</td>
                   <td>{alumno.PERIODO}</td>
                   <td>
+                    <button>
+                        Calificar
+                    </button>
                     <button onClick={() => handleEliminarAlumno(curso.curso._id, alumno.RUT)}>
                       Eliminar
                     </button>
@@ -188,4 +223,4 @@ function CargarAlumnos() {
   );
 }
 
-export { CargarAlumnos };
+export { CursoMostrar }

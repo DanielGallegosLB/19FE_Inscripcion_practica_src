@@ -1,0 +1,4 @@
+NOMBRES,APELLIDO_PATERNO,APELLIDO_MATERNO,RUT,FECHA_DE_NACIMIENTO,TELÉFONO,CORREO,FACULTAD,ESCUELA,CARRERA,REGÍMEN,SEDE,PERFIL,NRC,ACI,PERIODO
+Juan,Pérez,Gómez,123456789,1990-05-15,912345678,juan.perez@email.com,Facultad de Ingeniería,Ingeniería Informática,Ingeniería de Software,Diurno,Santiago,Alumno,5678,567,202310
+María,López,Fernández,987654321,1992-08-22,987654321,maria.lopez@email.com,Facultad de Ciencias,Química,Química Industrial,Diurno,Santiago,Alumno,5678,567,202310
+Pedro,Rodríguez,Sánchez,112233445,1988-03-10,998877665,pedro.rodriguez@email.com,Facultad de Derecho,Derecho,Derecho Civil,Diurno,Santiago,Alumno,5678,567,202310

@@ -158,7 +158,7 @@ function SubirInforme() {
 
 
 
-  const guardarInformeEnAPI = async (usuario, id, nombre, linkDescarga) => {
+  const guardarInformeEnAPI = async (rut, id, nombre, linkDescarga) => {
     try {
       const response = await fetch(`${API}/informes/crear`, {
         method: "POST",
@@ -166,16 +166,19 @@ function SubirInforme() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          usuario,
+          rut,
           id,
           nombre,
           linkDescarga,
         }),
       });
-
+  
       if (!response.ok) {
         throw new Error("Error al guardar informe en la API");
       }
+      
+      const responseData = await response.json();
+  
       if (response.status === 200) {
         alert("Informe actualizado exitosamente");
         getFilesFromUser();
@@ -184,7 +187,6 @@ function SubirInforme() {
         alert("Informe creado exitosamente");
         getFilesFromUser();
       }
-
     } catch (error) {
       console.error(error.message);
     }

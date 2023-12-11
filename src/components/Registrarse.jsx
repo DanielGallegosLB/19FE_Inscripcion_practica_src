@@ -92,10 +92,10 @@ const Registrarse = () => {
             ) : (
                 <section>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1>Register</h1>
+                    <h1>Registrarse</h1>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="username">
-                            Username:
+                            Rut o Usuario:
                             <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
                         </label>
@@ -121,7 +121,7 @@ const Registrarse = () => {
 
 
                         <label htmlFor="password">
-                            Password:
+                            Contraseña:
                             <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
                         </label>
@@ -145,7 +145,7 @@ const Registrarse = () => {
 
 
                         <label htmlFor="confirm_pwd">
-                            Confirm Password:
+                            Confirmar Contraseña:
                             <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
                         </label>
@@ -162,15 +162,15 @@ const Registrarse = () => {
                         />
                         <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
-                            Must match the first password input field.
+                            Debe coincidir con el primer campo de entrada de contraseña.
                         </p>
 
                         <button disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
                     </form>
                     <p>
-                        Already registered?<br />
+                        Ya estás registrado?<br />
                         <span className="line">
-                            <Link to="/">Sign In</Link>
+                            <Link to="/">Iniciar Sessión</Link>
                         </span>
                     </p>
                 </section>

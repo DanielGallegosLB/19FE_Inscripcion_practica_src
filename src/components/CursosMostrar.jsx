@@ -63,7 +63,10 @@ function CursosMostrar() {
                             <th>Id</th>
                             <th>Nombre</th>
                             <th>Profesor</th>
+                            <th>Rut Profesor</th>
                             <th>Alumnos</th>
+                            <th>NRC</th>
+                            <th>ACI</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -74,10 +77,13 @@ function CursosMostrar() {
                                     <td>{u._id}</td>
                                     <td>{u.NOMBRE}</td>
                                     <td>{u.PROFESOR}</td>
-                                    <td>{u.ALUMNOS.join(', ')}</td>
+                                    <td>{u.RUTPROFESOR}</td>
+                                    <td>{u.ALUMNOS.map(alumno => alumno.NOMBRES).join(', ')}</td>
+                                    <td>{u.NRC}</td>
+                                    <td>{u.ACI}</td>
                                     <td>
                                         <Link to="/cursos/editar">
-                                            <Button onClick={() => handleEdit(u._id, u.NOMBRE, u.PROFESOR, u.ALUMNOS)}>Editar</Button>
+                                        <Button onClick={() => handleEdit(u._id, u.NOMBRE, u.PROFESOR, u.RUTPROFESOR, u.ALUMNOS.map(alumno => alumno.NOMBRES).join(', '), u.NRC, u.ACI)}>Editar</Button>
                                         </Link>
                                         <Button onClick={() => handleDelete(u._id)}>Eliminar</Button>
                                     </td>

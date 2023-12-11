@@ -1,28 +1,11 @@
 const localAPI = "http://localhost:3001";
 const remoteAPI1 = "https://one9backend.onrender.com";
-const remoteAPI2 = "https://19-backend.danielgallegosw.repl.co";
 
-const APIs = [localAPI, remoteAPI1, remoteAPI2];
-
-async function checkAPIs() {
-  for (const api of APIs) {
-    try {
-      console.log(`Conectando a ${api}`)
-      const response = await fetch(`${api}/ping`);
-      if (response.status === 200) {
-        return api;
-      }
-    } catch (error) {
-      console.log(`Fallo al conectar a ${api}`);
-      continue;
-    }
-  }
-  return null;
-}
+const APIs = [localAPI, remoteAPI1];
 
 async function isAnswering(API) {
   try {
-    console.log(`Verificando ${API}`)
+    console.log(`Verificando ${API}`);
     const response = await fetch(`${API}/ping`);
     if (response.status === 200) {
       return true;
@@ -36,34 +19,34 @@ async function isAnswering(API) {
 // Obtener la API almacenada localmente, si existe
 const storedAPI = localStorage.getItem("selectedAPI");
 
-// Si hay una API almacenada, úsala; además, realiza la verificación
-let API;
-if (storedAPI !== null) {
-  await isAnswering(storedAPI) 
+async function findAvailableAPI() {
+  const availableAPIs = [];
   
-  API = storedAPI;
-  console.log(`storedAPI: ${storedAPI}`);
-  console.log(`API: ${API}`);
-  console.log(`API almacenada localmente: ${API}`);
-} else {
-  if (await isAnswering(localAPI)) {
-    API = localAPI;
-    console.log(`API (local) encontrada: ${API}`);
-  } else if (await isAnswering(remoteAPI1)) {
-    API = remoteAPI1;
-    console.log(`API (remota 1) seleccionada: ${API}`);
-  } else if (await isAnswering(remoteAPI2)) {
-    API = remoteAPI2;
-    console.log(`API (remota 2) seleccionada: ${API}`);
+  // Intentar la API local primero si está almacenada
+  if (storedAPI !== null && await isAnswering(storedAPI)) {
+    console.log(`API almacenada localmente encontrada y disponible: ${storedAPI}`);
+    return storedAPI;
+  }
+
+  // Intentar todas las APIs y agregar las disponibles a la lista
+  for (const api of APIs) {
+    if (isAnswering(api)) {
+      availableAPIs.push(api);
+    }
+  }
+
+  if (availableAPIs.length > 0) {
+    // Seleccionar la primera API disponible
+    const selectedAPI = availableAPIs[0];
+    console.log(`API disponible seleccionada: ${selectedAPI}`);
+    return selectedAPI;
   } else {
     console.log("No hay APIs disponibles");
+    return null;
   }
 }
 
-
-
-
-  
-
+const API = await findAvailableAPI();
 
 export { API };
+

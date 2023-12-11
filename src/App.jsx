@@ -20,6 +20,8 @@ import { ManageProfiles } from './components/ManageProfiles.jsx';
 import { UsersManage } from './components/UsersManage.jsx';
 import Navbar from './components/Navbar.jsx';
 import { SubirInforme } from './components/SubirInforme.jsx';
+import { PortalProfesor } from './components/PortalProfesor.jsx';
+import { CursoMostrar } from './components/CursoMostrar.jsx';
 
 export default function App() {
   return (
@@ -45,6 +47,8 @@ export default function App() {
         <Route path="/cargaralumnos" element={<CargarAlumnos />} />
         <Route path="/formalumnos" element={<FormAlumnos />} />
         <Route path="/informe" element={<SubirInforme />} />
+        <Route path="/portalprofesor" element={<PortalProfesor />} />
+        <Route path="/portalprofesor/curso" element={<CursoMostrar />} />
 
         {/* 404 */}
         <Route path="*" element={<Missing />} />
