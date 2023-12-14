@@ -58,8 +58,8 @@ const Registrarse = () => {
         // if button enabled with JS hack
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
-        const v3 = SUPERVISOR_EMAIL_REGEX.test(supervisorEmail);
-        if (!v1 || !v2 || !v3) {
+        
+        if (!v1 || !v2) {
             setErrMsg("Entrada inválida");
             return;
         }
