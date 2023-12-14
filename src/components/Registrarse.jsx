@@ -49,9 +49,7 @@ const Registrarse = () => {
         setErrMsg('');
     }, [user, pwd, matchPwd])
 
-    useEffect(() => {
-        setValidSupervisorEmail(SUPERVISOR_EMAIL_REGEX.test(supervisorEmail));
-    }, [supervisorEmail])
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -71,7 +69,7 @@ const Registrarse = () => {
             const response = await fetch(CREATE_USER_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ RUT: user, CONTRASEÑA: pwd, SUPERVISOR_EMAIL: supervisorEmail }),
+                body: JSON.stringify({ RUT: user, CONTRASEÑA: pwd }),
             });
 
             // TODO: remove console.logs before deployment
