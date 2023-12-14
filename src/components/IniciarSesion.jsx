@@ -1,103 +1,120 @@
 import React, { useEffect, useState, useRef } from "react";
-import {useAuth} from '../hooks/useAuth';
-import { Button, Table } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useAuth } from '../hooks/useAuth';
+import { Button } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { API } from "./../apiSelection";
-import { set } from "mongoose";
-
-
 
 function IniciarSesion() {
-    const { setAuth } = useAuth();
-    const navigate = useNavigate();
-    const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
-    const userRef = useRef();
-    const errRef = useRef();
+  const userRef = useRef();
+  const errRef = useRef();
 
-    const [user, setUser] = useState('');
-    const [pwd, setPwd] = useState('');
-    const [id, setId] = useState('');
-    const [errMsg, setErrMsg] = useState('');
-    const [rut, setRut] = useState('');
+  const [rut, setRut] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [errMsg, setErrMsg] = useState('');
 
-    useEffect(() => {
-        userRef.current.focus();
-    }, [])
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
 
-    useEffect(() => {
-        setErrMsg('');
-    }, [user, pwd])
+  useEffect(() => {
+    setErrMsg('');
+    localStorage.setItem('rut', rut);
+  }, [rut, pwd]);
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-    
-      try {
-        let requestBody;
-    
-        // Verificar si el campo 'user' parece ser un Rut
-        if (/^\d+$/.test(user)) {
-          requestBody = { rut: user, contraseña: pwd };
-        } else {
-          requestBody = { nombre: user, contraseña: pwd };
-        }
-    
-        const response = await fetch(API+'/usuarios/auth', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody),
-        });
-    
-        if (response.status === 200) {
-          // Autenticación exitosa
-          const data = await response.json();
-          const accessToken = data.accessToken;
-          const perfil = data.PERFIL;
-          const id = data._id;
-          const rut = data.RUT;
-    
-          setAuth({ id, user, pwd, perfil, accessToken , rut});
-          setRut('');
-          setUser('');
-          setPwd('');
-          setId('');
-          navigate(from, { replace: true });
-        } else if (response.status === 404) {
-          // Usuario no encontrado
-          setErrMsg('Usuario no encontrado');
-        } else {
-          // Otros errores
-          setErrMsg('Error en la autenticación');
-        }
-      } catch (err) {
-        // Error de red u otros errores
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validar el RUT
+    if (!calcularDigitoVerificador(rut)) {
+      setErrMsg('Rut inválido');
+      return;
+    }
+
+    try {
+      const response = await fetch(API + '/usuarios/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ rut, contraseña: pwd }),
+      });
+
+      if (response.status === 200) {
+        const data = await response.json();
+        const accessToken = data.accessToken;
+        const perfil = data.PERFIL;
+        const id = data._id;
+        const rut = data.RUT;
+
+        setAuth({ id, rut, perfil, accessToken });
+        setRut('');
+        setPwd('');
+        navigate(from, { replace: true });
+      } else if (response.status === 404) {
+        setErrMsg('Usuario no encontrado');
+      } else {
         setErrMsg('Error en la autenticación');
-        errRef.current.focus();
       }
-    };
-    
-    
-      
+    } catch (err) {
+      setErrMsg('Error en la autenticación');
+      errRef.current.focus();
+    }
+  };
 
+  function calcularDigitoVerificador(rut) {
+    // Limpia el rut de puntos y guiones
+    rut = rut.replace(/[.-]/g, '');
 
+    // Separa el rut del dígito verificador
+    const rutSinDV = rut.slice(0, -1);
+    const digitoVerificador = rut.slice(-1);
 
-    return (
-      <section>
+    // Invierte el rut
+    const rutInvertido = rutSinDV.split('').reverse().join('');
+
+    // Multiplica y suma
+    let suma = 0;
+    let multiplicador = 2;
+
+    for (let i = 0; i < rutInvertido.length; i++) {
+      suma += parseInt(rutInvertido.charAt(i)) * multiplicador;
+      multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
+    }
+
+    // Calcula el resto
+    const resto = suma % 11;
+
+    // Calcula el dígito verificador esperado
+    let digitoEsperado;
+    if (resto === 0) {
+      digitoEsperado = 0;
+    } else if (resto === 1) {
+      digitoEsperado = 'K';
+    } else {
+      digitoEsperado = 11 - resto;
+    }
+
+    return digitoEsperado.toString() === digitoVerificador;
+  }
+
+  return (
+    <section>
       <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
       <h1>Iniciar Sesión</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Rut o Usuario:</label>
+        <label htmlFor="rut">Rut:</label>
         <input
           type="text"
-          id="username"
+          id="rut"
           ref={userRef}
           autoComplete="off"
-          onChange={(e) => setUser(e.target.value)}
-          value={user}
+          onChange={(e) => setRut(e.target.value)}
+          value={rut}
           required
         />
 
@@ -118,7 +135,7 @@ function IniciarSesion() {
         </span>
       </p>
     </section>
-        )
+  );
 }
 
-export {IniciarSesion}
+export { IniciarSesion };

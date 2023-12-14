@@ -1,0 +1,4 @@
+NOMBRES,APELLIDO_PATERNO,APELLIDO_MATERNO,RUT,FECHA_DE_NACIMIENTO,TELÉFONO,CORREO,FACULTAD,ESCUELA,CARRERA,REGÍMEN,SEDE,PERFIL,NRC,ACI,PERIODO
+Eduardo,Sánchez,Ramírez,108724935,1990-07-15,912345678,eduardo.sanchez@email.com,Facultad de Ingeniería,Ingeniería Civil,Ingeniería Electrónica,Diurno,Santiago,Alumno,7777,888,202313
+María,Fernández,López,99884223,1993-04-22,987654321,maria.fernandez@email.com,Facultad de Ciencias de la Salud,Medicina,Medicina Interna,Nocturno,Valparaíso,Alumno,9999,111,202313
+Jorge,Rodríguez,Vallejo,221140605,1988-11-10,998877665,jorge.rodriguez@email.com,Facultad de Ciencias Económicas y Administrativas,Economía,Economía Internacional,Diurno,Santiago,Alumno,2222,333,202313

@@ -22,6 +22,11 @@ import Navbar from './components/Navbar.jsx';
 import { SubirInforme } from './components/SubirInforme.jsx';
 import { PortalProfesor } from './components/PortalProfesor.jsx';
 import { CursoMostrar } from './components/CursoMostrar.jsx';
+import { CursoCrear } from './components/CursoCrear.jsx';
+import { PortalAlumno } from './components/PortalAlumno.jsx';
+import { PortalSupervisor } from './components/PortalSupervisor.jsx';
+import { MiPerfil } from './components/MiPerfil.jsx';
+
 
 export default function App() {
   return (
@@ -49,6 +54,10 @@ export default function App() {
         <Route path="/informe" element={<SubirInforme />} />
         <Route path="/portalprofesor" element={<PortalProfesor />} />
         <Route path="/portalprofesor/curso" element={<CursoMostrar />} />
+        <Route path="/portalprofesor/curso/crear" element={<CursoCrear />} />
+        <Route path="/portalalumno" element={<PortalAlumno />} />
+        <Route path="/portalsupervisor" element={<PortalProfesor />} />
+        <Route path="/miperfil" element={<MiPerfil />} />
 
         {/* 404 */}
         <Route path="*" element={<Missing />} />

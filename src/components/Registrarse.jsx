@@ -2,10 +2,12 @@ import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { API } from "./../apiSelection";
 
-const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const REGISTER_URL = '/register';
+const USER_REGEX = /^[0-9]+$/; // Se ajustó para permitir solo números en el RUT
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/; // Se ajustó para requerir 6 caracteres, 1 número, 1 mayúscula
+const CREATE_USER_URL = API + '/usuarios/crear-usuario';
+
 
 const Registrarse = () => {
     const userRef = useRef();
@@ -49,32 +51,33 @@ const Registrarse = () => {
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
         if (!v1 || !v2) {
-            setErrMsg("Invalid Entry");
+            setErrMsg("Entrada inválida");
             return;
         }
         try {
-            const response = await fetch.post(REGISTER_URL,
-                JSON.stringify({ user, pwd }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
-            );
+            // Crear el usuario utilizando la ruta especificada
+            console.log("user: " + user)
+            console.log("pwd: " + pwd)
+            const response = await fetch(CREATE_USER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ RUT: user, CONTRASEÑA: pwd }),
+            });
+
             // TODO: remove console.logs before deployment
             console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response))
             setSuccess(true);
-            //clear state and controlled inputs
+            // Limpiar el estado y los inputs controlados
             setUser('');
             setPwd('');
             setMatchPwd('');
         } catch (err) {
             if (!err?.response) {
-                setErrMsg('No Server Response');
+                setErrMsg('Sin respuesta del servidor');
             } else if (err.response?.status === 409) {
-                setErrMsg('Username Taken');
+                setErrMsg('Nombre de usuario ocupado');
             } else {
-                setErrMsg('Registration Failed')
+                setErrMsg('Error en el registro')
             }
             errRef.current.focus();
         }
@@ -84,9 +87,9 @@ const Registrarse = () => {
         <>
             {success ? (
                 <section>
-                    <h1>Success!</h1>
+                    <h1>Éxito</h1>
                     <p>
-                        <a href="#">Sign In</a>
+                        <Link to="/iniciar-sesion">Iniciar Sesión</Link>
                     </p>
                 </section>
             ) : (
@@ -95,7 +98,7 @@ const Registrarse = () => {
                     <h1>Registrarse</h1>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="username">
-                            Rut o Usuario:
+                            Rut:
                             <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
                         </label>
@@ -114,11 +117,8 @@ const Registrarse = () => {
                         />
                         <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
-                            4 to 24 characters.<br />
-                            Must begin with a letter.<br />
-                            Letters, numbers, underscores, hyphens allowed.
+                            Solo números permitidos para el RUT.
                         </p>
-
 
                         <label htmlFor="password">
                             Contraseña:
@@ -138,11 +138,8 @@ const Registrarse = () => {
                         />
                         <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
-                            8 to 24 characters.<br />
-                            Must include uppercase and lowercase letters, a number and a special character.<br />
-                            Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                            Mínimo 6 caracteres, 1 número, 1 mayúscula.
                         </p>
-
 
                         <label htmlFor="confirm_pwd">
                             Confirmar Contraseña:
@@ -162,21 +159,22 @@ const Registrarse = () => {
                         />
                         <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
-                            Debe coincidir con el primer campo de entrada de contraseña.
+                            Debe coincidir con el campo de contraseña.
                         </p>
 
-                        <button disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
+                        <button disabled={!validName || !validPwd || !validMatch}>Registrarse</button>
                     </form>
                     <p>
-                        Ya estás registrado?<br />
+                        ¿Ya estás registrado?
+                        <br />
                         <span className="line">
-                            <Link to="/">Iniciar Sessión</Link>
+                            <Link to="/iniciar-sesion">Iniciar Sesión</Link>
                         </span>
                     </p>
                 </section>
             )}
         </>
-    )
+    );
 }
 
-export {Registrarse}
+export { Registrarse };

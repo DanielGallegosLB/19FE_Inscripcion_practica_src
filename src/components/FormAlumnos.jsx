@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import React, { useState, useEffect, Fragment } from "react";
+import { Button, Form, Nav } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { API } from "./../apiSelection";
+import { useAuth } from "../hooks/useAuth";
+import { NavbarPortalAlumno } from "./NavbarPortalAlumno";
 
 function FormAlumnos() {
+    const auth = useAuth();
+    const [rut, setRut] = useState("");
     const [datosAlumno, setDatosAlumno] = useState({
         NOMBRES: "",
         APELLIDO_PATERNO: "",
         APELLIDO_MATERNO: "",
-        RUT: "",
         FECHA_NACIMIENTO: "",
         TELÉFONO: "",
         CORREO: "",
@@ -31,7 +34,7 @@ function FormAlumnos() {
         CARRERA: "",
     });
 
-    const [datosEmpresaSupervisor, setdatosEmpresaSupervisor] = useState({
+    const [datosEmpresaSupervisor, setDatosEmpresaSupervisor] = useState({
         NOMBRE: "",
         GIRO: "",
         DIRECCIÓN: "",
@@ -47,19 +50,62 @@ function FormAlumnos() {
         FECHA_TERMINO: "",
     });
 
-    let history = useNavigate();
+    useEffect(() => {
+        setRut(auth.rut || localStorage.getItem("rut"));
+    }, []);
+
 
     const handleCreate = async (e) => {
         e.preventDefault();
 
         const formData = {
-            datosAlumno,
-            datosProfesor,
-            datosEmpresaSupervisor,
+            NOMBRES: datosAlumno.NOMBRES,
+            APELLIDO_PATERNO: datosAlumno.APELLIDO_PATERNO,
+            APELLIDO_MATERNO: datosAlumno.APELLIDO_MATERNO,
+            FECHA_DE_NACIMIENTO: datosAlumno.FECHA_NACIMIENTO,
+            TELÉFONO: datosAlumno.TELÉFONO,
+            CORREO: datosAlumno.CORREO,
+            FACULTAD: datosAlumno.FACULTAD,
+            ESCUELA: datosAlumno.ESCUELA,
+            CARRERA: datosAlumno.CARRERA,
+            REGÍMEN: datosAlumno.REGÍMEN,
+            SEDE: datosAlumno.SEDE,
+            ...datosProfesor,
+            ...datosEmpresaSupervisor,
+            formalumnos: {
+                profesor: {
+                    NOMBRES: datosProfesor.NOMBRES,
+                    APELLIDO_PATERNO: datosProfesor.APELLIDO_PATERNO,
+                    APELLIDO_MATERNO: datosProfesor.APELLIDO_MATERNO,
+                    TELÉFONO: datosProfesor.TELÉFONO,
+                    CORREO: datosProfesor.CORREO,
+                    FACULTAD: datosProfesor.FACULTAD,
+                    ESCUELA: datosProfesor.ESCUELA,
+                    CARRERA: datosProfesor.CARRERA,
+                },
+                empresaSupervisor: {
+                    NOMBRE: datosEmpresaSupervisor.NOMBRE,
+                    GIRO: datosEmpresaSupervisor.GIRO,
+                    DIRECCIÓN: datosEmpresaSupervisor.DIRECCIÓN,
+                    TELÉFONO: datosEmpresaSupervisor.TELÉFONO,
+                    PAGINA_WEB: datosEmpresaSupervisor.PAGINA_WEB,
+                    NUM_COLABORADORES: datosEmpresaSupervisor.NUM_COLABORADORES,
+                    AREA_DE_PRACTICA: datosEmpresaSupervisor.AREA_DE_PRACTICA,
+                    NOMBRE_SUPERVISOR: datosEmpresaSupervisor.NOMBRE_SUPERVISOR,
+                    CARGO_SUPERVISOR: datosEmpresaSupervisor.CARGO_SUPERVISOR,
+                    CORREO_SUPERVISOR: datosEmpresaSupervisor.CORREO_SUPERVISOR,
+                    TELEFONO_SUPERVISOR: datosEmpresaSupervisor.TELEFONO_SUPERVISOR,
+                    FECHA_INICIO: datosEmpresaSupervisor.FECHA_INICIO,
+                    FECHA_TERMINO: datosEmpresaSupervisor.FECHA_TERMINO,
+                },
+            },
         };
 
+      
+
+
         try {
-            const res = await fetch(API + "/formularios-alumnos/crear-formulario", {
+            const res = await fetch(API + `/usuarios/subirFormulario/${rut}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,11 +113,11 @@ function FormAlumnos() {
                 body: JSON.stringify(formData),
             });
 
-            if (res.status === 201) {
-                alert("Formulario creado correctamente");
-                history("/formalumnos");
+            if (res.status === 200) {
+                alert("Formulario subido correctamente");
+                // Puedes redirigir a donde necesites después de subir el formulario
             } else {
-                alert("Error al crear el formulario");
+                alert("Error al subir el formulario");
                 console.log(res);
             }
         } catch (error) {
@@ -80,12 +126,14 @@ function FormAlumnos() {
     };
 
     return (
-        <div className="col">
+        <Fragment>
+            <NavbarPortalAlumno />
+        
+            <div className="container">
             <h4>Datos Alumno</h4>
             <div className="row">
                 {Object.entries(datosAlumno).map(([campo, valor]) => (
                     <div key={campo} className="col-6 col-md-4 col-lg-3 col-xl-2">
-                        {/* Puedes ajustar los tamaños de las columnas según tus necesidades */}
                         <Form.Group className="mb-3">
                             <Form.Label>{campo}</Form.Label>
                             <Form.Control
@@ -102,7 +150,6 @@ function FormAlumnos() {
             <div className="row">
                 {Object.entries(datosProfesor).map(([campo, valor]) => (
                     <div key={campo} className="col-6 col-md-4 col-lg-3 col-xl-2">
-                        {/* Puedes ajustar los tamaños de las columnas según tus necesidades */}
                         <Form.Group className="mb-3">
                             <Form.Label>{campo}</Form.Label>
                             <Form.Control
@@ -119,14 +166,13 @@ function FormAlumnos() {
             <div className="row">
                 {Object.entries(datosEmpresaSupervisor).map(([campo, valor]) => (
                     <div key={campo} className="col-6 col-md-4 col-lg-3 col-xl-2">
-                        {/* Puedes ajustar los tamaños de las columnas según tus necesidades */}
                         <Form.Group className="mb-3">
                             <Form.Label>{campo}</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder={`Ingrese ${campo}`}
                                 value={valor}
-                                onChange={(e) => setdatosEmpresaSupervisor({ ...datosEmpresaSupervisor, [campo]: e.target.value })}
+                                onChange={(e) => setDatosEmpresaSupervisor({ ...datosEmpresaSupervisor, [campo]: e.target.value })}
                             />
                         </Form.Group>
                     </div>
@@ -137,9 +183,11 @@ function FormAlumnos() {
                     Guardar
                 </Button>
             </div>
-        </div>
+            </div>
+            
+        
+        </Fragment>
     );
-    
 }
 
 export { FormAlumnos };

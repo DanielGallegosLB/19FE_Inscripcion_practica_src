@@ -1,27 +1,45 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { API } from "./../apiSelection";
+import { API } from "../apiSelection";
+import { useAuth } from "../hooks/useAuth";
 
-function CursosCrear() {
-    const [name, setName] = useState("");
+function CursoCrear() {
     const [profesor, setProfesor] = useState("");
-    const [rutProfesor, setRutProfesor] = useState("");  // Nuevo campo
-    const [alumnos, setAlumnos] = useState("");
-    const [nrc, setNRC] = useState("");  // Nuevo campo
-    const [aci, setACI] = useState("");  // Nuevo campo
+    const [rutProfesor, setRutProfesor] = useState("");
+    const [nrc, setNRC] = useState("");
+    const [aci, setACI] = useState("");
     const [periodo, setPeriodo] = useState("");
+    const auth = useAuth();
 
     const navigate = useNavigate();
 
     const handleCreate = async (e) => {
         e.preventDefault();
+        
+
+        // Validar restricciones antes de enviar la solicitud
+        if (!/^\d{4}$/.test(nrc)) {
+            alert("El NRC debe contener 4 números");
+            return;
+        }
+
+        if (!/^\d{1,3}$/.test(aci)) {
+            alert("El ACI debe contener entre 1 y 3 números");
+            return;
+        }
+
+        if (!/^\d+$/.test(periodo)) {
+            alert("El período debe contener solo números");
+            return;
+        }
+
         const newCourse = {
             PROFESOR: profesor,
             RUTPROFESOR: rutProfesor,
             NRC: nrc,
             ACI: aci,
-            PERIODO: periodo,  // Agregado campo 'PERIODO'
+            PERIODO: periodo,
         };
 
         try {
@@ -35,7 +53,7 @@ function CursosCrear() {
 
             if (res.status === 201) {
                 alert("Curso creado correctamente");
-                navigate("/cursos");
+                navigate("/portalprofesor/curso");
                 return res.json();
             } else {
                 alert("Error al crear el curso");
@@ -49,15 +67,16 @@ function CursosCrear() {
     return (
         <div style={{ margin: "2rem" }}>
             <Form>
-                 <Form.Group className="mb-3" controlId="profesor">
+                <Form.Group className="mb-3" controlId="profesor">
                     <Form.Label>Profesor</Form.Label>
                     <Form.Control type="text" placeholder="Ingrese profesor" required onChange={(e) => setProfesor(e.target.value)} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="rutProfesor">
-                    <Form.Label>Rut Profesor (sin puntos ni guion)</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese rut del profesor" required onChange={(e) => setRutProfesor(e.target.value)} />
+                    <Form.Label>RUT Profesor</Form.Label>
+                    <Form.Control type="text" placeholder="Ingrese RUT profesor" onChange={(e) => setRutProfesor(e.target.value)} />
                 </Form.Group>
+
 
                 <Form.Group className="mb-3" controlId="nrc">
                     <Form.Label>NRC</Form.Label>
@@ -82,5 +101,4 @@ function CursosCrear() {
     )
 }
 
-
-export { CursosCrear };
+export { CursoCrear };

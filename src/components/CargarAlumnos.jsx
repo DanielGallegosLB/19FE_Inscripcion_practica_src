@@ -18,7 +18,6 @@ function CargarAlumnos() {
     if (!auth.user) {
       navigate('/iniciar-sesion');
     } else {
-      print(auth.user);
       // Aquí puedes realizar la solicitud al servidor para obtener la información del curso
 
       fetch(API + '/cursos/obtener-por-rutprofesor/' + auth.rut)
@@ -95,6 +94,8 @@ function CargarAlumnos() {
     }
   };
 
+
+
   const handleEliminarAlumno = async (idCurso, rutAlumno) => {
     try {
       const response = await fetch(API + `/cursos/eliminar-alumno/${idCurso}/${rutAlumno}`, {
@@ -102,7 +103,7 @@ function CargarAlumnos() {
       });
 
       if (response.status === 200) {
-        alert('Alumno eliminado correctamente.');
+        
         // Actualizamos el estado para desencadenar la recarga del curso
         setActualizarCurso(prevState => !prevState);
       } else {
