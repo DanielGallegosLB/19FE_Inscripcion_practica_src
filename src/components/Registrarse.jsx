@@ -131,27 +131,7 @@ const Registrarse = () => {
                         </p>
 
 
-                        <label htmlFor="supervisor_email">
-                            Correo del Supervisor:
-                            <FontAwesomeIcon icon={faCheck} className={validSupervisorEmail ? "valid" : "hide"} />
-                            <FontAwesomeIcon icon={faTimes} className={validSupervisorEmail || !supervisorEmail ? "hide" : "invalid"} />
-                        </label>
-                        <input
-                            type="text"
-                            id="supervisor_email"
-                            autoComplete="off"
-                            onChange={(e) => setSupervisorEmail(e.target.value)}
-                            value={supervisorEmail}
-                            required
-                            aria-invalid={validSupervisorEmail ? "false" : "true"}
-                            aria-describedby="supervisoremailnote"
-                            onFocus={() => setSupervisorEmailFocus(true)}
-                            onBlur={() => setSupervisorEmailFocus(false)}
-                        />
-                        <p id="supervisoremailnote" className={supervisorEmailFocus && supervisorEmail && !validSupervisorEmail ? "instructions" : "offscreen"}>
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                            Ingrese un correo electrónico válido para el supervisor.
-                        </p>
+                        
 
                         <label htmlFor="password">
                             Contraseña:
