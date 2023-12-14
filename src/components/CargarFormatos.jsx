@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment,useEffect, useState } from 'react';
 import { Button, Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { API } from "./../apiSelection";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, listAll, getDownloadURL, deleteObject } from "firebase/storage";
-
+import { NavbarPortalAdmin } from "./NavbarPortalAdmin.jsx";
 
 const firebaseConfig = {
   "type": "service_account",
@@ -94,7 +94,8 @@ function CargarFormatos() {
 
 
   return (
-    <div>
+    <Fragment>
+      <NavbarPortalAdmin />
       <h1>Manejar documentación general</h1>
       <div>
         <h2>Archivos</h2>
@@ -134,7 +135,7 @@ function CargarFormatos() {
         <button onClick={handleFileUpload}>Subir archivo</button>
       </div>
 
-    </div>
+    </Fragment>
   );
 }
 

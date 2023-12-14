@@ -3,6 +3,7 @@ import { Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "./../apiSelection";
+import { NavbarPortalAdmin } from "./NavbarPortalAdmin.jsx";
 
 function CursosMostrar() {
     const [cursos, setCursos] = useState([]);
@@ -18,12 +19,14 @@ function CursosMostrar() {
         }
     }
 
-    const handleEdit = (id, name, profesor, alumnos) => {
-        localStorage.setItem("id", id)
-        localStorage.setItem("name", name);
+    const handleEdit = (id, profesor, rutProfesor, nrc, aci) => {
+        localStorage.setItem("id", id);
         localStorage.setItem("profesor", profesor);
-        localStorage.setItem("alumnos", alumnos);
-    }
+        localStorage.setItem("rutProfesor", rutProfesor);
+        localStorage.setItem("nrc", nrc);
+        localStorage.setItem("aci", aci);
+      };
+      
 
     const handleDelete = async (id) => {
         // Realizar la solicitud DELETE al servidor
@@ -52,16 +55,13 @@ function CursosMostrar() {
 
     return (
         <Fragment>
-            <Link to="/">
-                <button>Inicio</button>
-            </Link>
+            <NavbarPortalAdmin />
             <div style={{ margin: "1rem" }}>
                 <h1>Cursos</h1>
                 <Table striped bordered hover size={"sm"}>
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Nombre</th>
                             <th>Profesor</th>
                             <th>Rut Profesor</th>
                             <th>Alumnos</th>
@@ -75,7 +75,7 @@ function CursosMostrar() {
                             cursos.map((u, index) => (
                                 <tr key={index}>
                                     <td>{u._id}</td>
-                                    <td>{u.NOMBRE}</td>
+                                    
                                     <td>{u.PROFESOR}</td>
                                     <td>{u.RUTPROFESOR}</td>
                                     <td>{u.ALUMNOS.map(alumno => alumno.NOMBRES).join(', ')}</td>
@@ -83,7 +83,7 @@ function CursosMostrar() {
                                     <td>{u.ACI}</td>
                                     <td>
                                         <Link to="/cursos/editar">
-                                        <Button onClick={() => handleEdit(u._id, u.NOMBRE, u.PROFESOR, u.RUTPROFESOR, u.ALUMNOS.map(alumno => alumno.NOMBRES).join(', '), u.NRC, u.ACI)}>Editar</Button>
+                                        <Button onClick={() => handleEdit(u.PROFESOR, u.RUTPROFESOR, u.NRC, u.ACI)}>Editar</Button>
                                         </Link>
                                         <Button onClick={() => handleDelete(u._id)}>Eliminar</Button>
                                     </td>

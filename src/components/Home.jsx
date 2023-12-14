@@ -49,6 +49,9 @@ function Home() {
             <Link to = "/portalsupervisor">
               <button>Portal Supervisor</button>
             </Link>
+            <Link to = "/portaladmin">
+              <button>Portal Admin</button>
+            </Link>
           </div>
         </div>
     );

@@ -26,6 +26,8 @@ import { CursoCrear } from './components/CursoCrear.jsx';
 import { PortalAlumno } from './components/PortalAlumno.jsx';
 import { PortalSupervisor } from './components/PortalSupervisor.jsx';
 import { MiPerfil } from './components/MiPerfil.jsx';
+import { ProfilesCreate } from './components/ProfilesCreate.jsx';
+import { PortalAdmin } from './components/PortalAdmin.jsx';
 
 
 export default function App() {
@@ -43,6 +45,7 @@ export default function App() {
         <Route path="/formatos/manejar" element={<CargarFormatos />} />
         <Route path="/formatos" element={<DescargarFormatos />} />
         <Route path="/manageprofiles" element={<ManageProfiles />} />
+        <Route path='/manageprofiles/create' element={<ProfilesCreate />} />
         <Route path='/usersmanage' element={<UsersManage />} />
         <Route path="/create" element={<CrearUsuario />} />
         <Route path="/edit" element={<UsuarioEditar />} />
@@ -57,6 +60,7 @@ export default function App() {
         <Route path="/portalprofesor/curso/crear" element={<CursoCrear />} />
         <Route path="/portalalumno" element={<PortalAlumno />} />
         <Route path="/portalsupervisor" element={<PortalProfesor />} />
+        <Route path="/portaladmin" element={<PortalAdmin />} />
         <Route path="/miperfil" element={<MiPerfil />} />
 
         {/* 404 */}

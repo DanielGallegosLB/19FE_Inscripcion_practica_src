@@ -1,96 +1,123 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link, useNavigate } from "react-router-dom";
-import {API} from "./../apiSelection";
+import { useNavigate } from "react-router-dom";
+import { API } from "./../apiSelection";
 
 function UsuarioEditar() {
-    const [id, setId] = useState("");
-    const [name, setName] = useState("");
-    const [password, setPassword] = useState("");
-    const [perfil, setPerfil] = useState("");
+  const [id, setId] = useState("");
+  const [rut, setRut] = useState("");
+  const [password, setPassword] = useState("");
+  const [perfil, setPerfil] = useState("");
+  const [perfiles, setPerfiles] = useState([]);
+  const history = useNavigate();
 
-    let history = useNavigate();
+  const handleUpdate = async (e) => {
+    e.preventDefault();
 
-    
-    const handleUpdate = (e) => {
-        e.preventDefault();
-      
-        // Construye el cuerpo de la solicitud con los datos actualizados
-        const updatedUser = {
-          NOMBRES: name,
-          CONTRASEÑA: password,
-          PERFIL: perfil,
-        };
-      
-        fetch(API+`/usuarios/editar-usuario/${id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatedUser),
-        })
-          .then((response) => {
-            if (response.status === 200) {
-              console.log('Usuario actualizado exitosamente');
-              // Redirige a la página de inicio u otra acción después de la actualización
-              history("/manageprofiles");
-            } else {
-              console.error('Error al actualizar el usuario');
-            }
-          })
-          .catch((error) => {
-            console.error('Error de red:', error);
-          });
-          history("/manageprofiles");
-      };
+    const updatedUser = {
+      RUT: rut,
+      CONTRASEÑA: password,
+      PERFIL: perfil,
+    };
 
-      useEffect(() => {
-        const storedId = localStorage.getItem("id") || "";
-        const storedName = localStorage.getItem("name") || "";
-        const storedPassword = localStorage.getItem("password") || "";
-        const storedPerfil = localStorage.getItem("perfil") || ""; // Esto es una cadena
-    
+    try {
+      const response = await fetch(API + `/usuarios/editar-usuario/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedUser),
+      });
 
-        setId(storedId);
-        setName(storedName);
-        setPassword(storedPassword);
-        setPerfil(storedPerfil);
+      if (response.status === 200) {
+        console.log("Usuario actualizado exitosamente");
+        // Redirige a la página de inicio u otra acción después de la actualización
+        history("/usersmanage");
+      } else {
+        console.error("Error al actualizar el usuario");
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
+  };
 
-      }, []);
+  useEffect(() => {
+    const storedId = localStorage.getItem("id") || "";
+    const storedRut = localStorage.getItem("rut") || "";
+    const storedPassword = localStorage.getItem("password") || "";
+    const storedPerfil = localStorage.getItem("perfil") || ""; // Esto es una cadena
 
+    setId(storedId);
+    setRut(storedRut);
+    setPassword(storedPassword);
+    setPerfil(storedPerfil);
 
-    return (
-        <div>
-            <Form>
-                <Form.Group className="mb-3" controlId="id">
-                    <Form.Label>id</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese id" value={id} required onChange={(e) => setId(e.target.value)} />
-                </Form.Group>
+    // Realiza la solicitud para obtener la lista de perfiles al montar el componente
+    const fetchPerfiles = async () => {
+      try {
+        const response = await fetch(API + '/perfiles/obtener');
+        if (response.status === 200) {
+          const data = await response.json();
+          // Extrae solo los nombres de los perfiles y guárdalos en perfiles
+          const nombresPerfiles = data.perfiles.map((perfil) => perfil.NOMBRE);
+          setPerfiles(nombresPerfiles);
+        } else {
+          console.error('Error al obtener la lista de perfiles');
+        }
+      } catch (error) {
+        console.error('Error de red:', error);
+      }
+    };
 
-                <Form.Group className="mb-3" controlId="name">
-                    <Form.Label>Nombres</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese nombres" value={name} required onChange={(e) => setName(e.target.value)} />
-                </Form.Group>
+    fetchPerfiles();
+  }, []);
 
-                <Form.Group className="mb-3" controlId="password">
-                    <Form.Label>Contraseña</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese contraseña" value={password} required onChange={(e) => setPassword(e.target.value)}/>
-                </Form.Group>
+  return (
+    <div>
+      <Form>
+        <Form.Group className="mb-3" controlId="id">
+          <Form.Label>ID</Form.Label>
+          <Form.Control type="text" value={id} readOnly />
+        </Form.Group>
 
-                <Form.Group className="mb-3" controlId="permissions">
-                    <Form.Label>Perfil</Form.Label>
-                    <Form.Control type="list" placeholder="Ingrese permisos (separados por coma)" value={perfil} required onChange={(e) => setPerfil(e.target.value)}/>
-                </Form.Group>
-                
-                    <Button variant="primary" onClick={(e) => handleUpdate(e)}>
-                        Guardar
-                    </Button>
-                
-            </Form>
-        </div>
-    )
+        <Form.Group className="mb-3" controlId="rut">
+          <Form.Label>Rut</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Ingrese Rut"
+            value={rut}
+            onChange={(e) => setRut(e.target.value)}
+            required
+          />
+        </Form.Group>
 
 
+        <Form.Group className="mb-3" controlId="perfil">
+          <Form.Label>Perfil</Form.Label>
+          <Form.Control
+            as="select"
+            value={perfil}
+            onChange={(e) => setPerfil(e.target.value)}
+            required
+          >
+            <option value="">Seleccione un perfil</option>
+            {Array.isArray(perfiles) && perfiles.length > 0
+              ? perfiles.map((nombrePerfil) => (
+                  <option key={nombrePerfil} value={nombrePerfil}>
+                    {nombrePerfil}
+                  </option>
+                ))
+              : null}
+          </Form.Control>
+        </Form.Group>
+
+        <Button variant="primary" onClick={(e) => handleUpdate(e)}>
+          Guardar
+        </Button>
+      </Form>
+    </div>
+  );
 }
+
 export { UsuarioEditar };

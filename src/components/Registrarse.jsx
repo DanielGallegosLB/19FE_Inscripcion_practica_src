@@ -7,7 +7,7 @@ import { API } from "./../apiSelection";
 const USER_REGEX = /^[0-9]+$/; // Se ajustó para permitir solo números en el RUT
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/; // Se ajustó para requerir 6 caracteres, 1 número, 1 mayúscula
 const CREATE_USER_URL = API + '/usuarios/crear-usuario';
-
+const SUPERVISOR_EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 const Registrarse = () => {
     const userRef = useRef();
@@ -28,6 +28,10 @@ const Registrarse = () => {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
+    const [supervisorEmail, setSupervisorEmail] = useState('');
+    const [validSupervisorEmail, setValidSupervisorEmail] = useState(false);
+    const [supervisorEmailFocus, setSupervisorEmailFocus] = useState(false);
+
     useEffect(() => {
         userRef.current.focus();
     }, [])
@@ -45,12 +49,17 @@ const Registrarse = () => {
         setErrMsg('');
     }, [user, pwd, matchPwd])
 
+    useEffect(() => {
+        setValidSupervisorEmail(SUPERVISOR_EMAIL_REGEX.test(supervisorEmail));
+    }, [supervisorEmail])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         // if button enabled with JS hack
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
-        if (!v1 || !v2) {
+        const v3 = SUPERVISOR_EMAIL_REGEX.test(supervisorEmail);
+        if (!v1 || !v2 || !v3) {
             setErrMsg("Entrada inválida");
             return;
         }
@@ -58,10 +67,11 @@ const Registrarse = () => {
             // Crear el usuario utilizando la ruta especificada
             console.log("user: " + user)
             console.log("pwd: " + pwd)
+            console.log("supervisorEmail: " + supervisorEmail)
             const response = await fetch(CREATE_USER_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ RUT: user, CONTRASEÑA: pwd }),
+                body: JSON.stringify({ RUT: user, CONTRASEÑA: pwd, SUPERVISOR_EMAIL: supervisorEmail }),
             });
 
             // TODO: remove console.logs before deployment
@@ -118,6 +128,29 @@ const Registrarse = () => {
                         <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             Solo números permitidos para el RUT.
+                        </p>
+
+
+                        <label htmlFor="supervisor_email">
+                            Correo del Supervisor:
+                            <FontAwesomeIcon icon={faCheck} className={validSupervisorEmail ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={validSupervisorEmail || !supervisorEmail ? "hide" : "invalid"} />
+                        </label>
+                        <input
+                            type="text"
+                            id="supervisor_email"
+                            autoComplete="off"
+                            onChange={(e) => setSupervisorEmail(e.target.value)}
+                            value={supervisorEmail}
+                            required
+                            aria-invalid={validSupervisorEmail ? "false" : "true"}
+                            aria-describedby="supervisoremailnote"
+                            onFocus={() => setSupervisorEmailFocus(true)}
+                            onBlur={() => setSupervisorEmailFocus(false)}
+                        />
+                        <p id="supervisoremailnote" className={supervisorEmailFocus && supervisorEmail && !validSupervisorEmail ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            Ingrese un correo electrónico válido para el supervisor.
                         </p>
 
                         <label htmlFor="password">
