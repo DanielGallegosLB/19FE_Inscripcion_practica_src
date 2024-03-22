@@ -49,17 +49,15 @@ const Registrarse = () => {
         setErrMsg('');
     }, [user, pwd, matchPwd])
 
-    useEffect(() => {
-        setValidSupervisorEmail(SUPERVISOR_EMAIL_REGEX.test(supervisorEmail));
-    }, [supervisorEmail])
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         // if button enabled with JS hack
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
-        const v3 = SUPERVISOR_EMAIL_REGEX.test(supervisorEmail);
-        if (!v1 || !v2 || !v3) {
+        
+        if (!v1 || !v2) {
             setErrMsg("Entrada inválida");
             return;
         }
@@ -71,7 +69,7 @@ const Registrarse = () => {
             const response = await fetch(CREATE_USER_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ RUT: user, CONTRASEÑA: pwd, SUPERVISOR_EMAIL: supervisorEmail }),
+                body: JSON.stringify({ RUT: user, CONTRASEÑA: pwd }),
             });
 
             // TODO: remove console.logs before deployment
@@ -131,27 +129,7 @@ const Registrarse = () => {
                         </p>
 
 
-                        <label htmlFor="supervisor_email">
-                            Correo del Supervisor:
-                            <FontAwesomeIcon icon={faCheck} className={validSupervisorEmail ? "valid" : "hide"} />
-                            <FontAwesomeIcon icon={faTimes} className={validSupervisorEmail || !supervisorEmail ? "hide" : "invalid"} />
-                        </label>
-                        <input
-                            type="text"
-                            id="supervisor_email"
-                            autoComplete="off"
-                            onChange={(e) => setSupervisorEmail(e.target.value)}
-                            value={supervisorEmail}
-                            required
-                            aria-invalid={validSupervisorEmail ? "false" : "true"}
-                            aria-describedby="supervisoremailnote"
-                            onFocus={() => setSupervisorEmailFocus(true)}
-                            onBlur={() => setSupervisorEmailFocus(false)}
-                        />
-                        <p id="supervisoremailnote" className={supervisorEmailFocus && supervisorEmail && !validSupervisorEmail ? "instructions" : "offscreen"}>
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                            Ingrese un correo electrónico válido para el supervisor.
-                        </p>
+                        
 
                         <label htmlFor="password">
                             Contraseña:
