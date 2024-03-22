@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { API } from "./../apiSelection";
 import { useAuth } from "../hooks/useAuth";
 import { NavbarPortalAlumno } from "./NavbarPortalAlumno";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import es from 'date-fns/locale/es'
+import { format } from 'date-fns'
 
 function FormAlumnos() {
     const auth = useAuth();
@@ -125,31 +129,64 @@ function FormAlumnos() {
         }
     };
 
+    const getYearRange = () => {
+        const currentYear = new Date().getFullYear();
+        const years = [];
+        for (let i = currentYear; i >= currentYear - 100; i--) {
+            years.push(i);
+        }
+        return years;
+    };
+
+    const capitalizeFirstLetter = (string) => {
+        return string.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+    };
+
     return (
         <Fragment>
             <NavbarPortalAlumno />
-        
             <div className="container">
             <h4>Datos Alumno</h4>
             <div className="row">
                 {Object.entries(datosAlumno).map(([campo, valor]) => (
-                    <div key={campo} className="col-6 col-md-4 col-lg-3 col-xl-2">
-                        <Form.Group className="mb-3">
-                            <Form.Label>{campo}</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder={`Ingrese ${campo}`}
-                                value={valor}
-                                onChange={(e) => setDatosAlumno({ ...datosAlumno, [campo]: e.target.value })}
-                            />
+                    <div key={campo} className="col-sm-6 col-md-4 col-lg-3 mb-3">
+                        <Form.Group className="mb-1">
+                            <Form.Label className="mb-0">{capitalizeFirstLetter(campo)}</Form.Label>
+                            {campo === 'FECHA_NACIMIENTO' ? (
+                                <DatePicker
+                                    selected={valor} // valor de fecha seleccionado
+                                    onChange={(date) => {
+                                        const fechaNacimientoTexto = format(date, 'MM/dd/yyyy', { locale: es }); // Convertir Date a texto con el formato deseado
+                                        setDatosAlumno({ ...datosAlumno, [campo]: fechaNacimientoTexto });
+                                    }}
+                                    dateFormat="MM/dd/yyyy"
+                                    className="form-control"
+                                    showYearDropdown // Mostrar el selector de año
+                                    scrollableYearDropdown // Hacer que el selector de año sea desplazable
+                                    yearDropdownItemNumber={100} // Mostrar 15 años a la vez
+                                    yearDropdownItem={getYearRange()} // Rango de años desde el año actual hasta 100 años atrás
+                                    maxDate={new Date()} // Establecer la fecha máxima como la fecha actual
+                                    locale={es} // Establecer el locale español
+                                />
+                            ) : (
+                                <Form.Control
+                                    type="text"
+                                    placeholder={`Ingrese ${capitalizeFirstLetter(campo)}`}
+                                    value={valor}
+                                    onChange={(e) => setDatosAlumno({ ...datosAlumno, [campo]: e.target.value })}
+                                />
+                            )}
                         </Form.Group>
                     </div>
                 ))}
             </div>
+
+
+
             <h4>Datos Profesor</h4>
             <div className="row">
                 {Object.entries(datosProfesor).map(([campo, valor]) => (
-                    <div key={campo} className="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div key={campo} className="col-sm-6 col-md-4 col-lg-3">
                         <Form.Group className="mb-3">
                             <Form.Label>{campo}</Form.Label>
                             <Form.Control
@@ -165,15 +202,33 @@ function FormAlumnos() {
             <h4>Datos Supervisor</h4>
             <div className="row">
                 {Object.entries(datosEmpresaSupervisor).map(([campo, valor]) => (
-                    <div key={campo} className="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div key={campo} className="col-sm-6 col-md-4 col-lg-3">
                         <Form.Group className="mb-3">
                             <Form.Label>{campo}</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder={`Ingrese ${campo}`}
-                                value={valor}
-                                onChange={(e) => setDatosEmpresaSupervisor({ ...datosEmpresaSupervisor, [campo]: e.target.value })}
-                            />
+                            {campo === 'FECHA_TERMINO' ? (
+                                <DatePicker
+                                    selected={valor} // valor de fecha seleccionado
+                                    onChange={(date) => {
+                                        const fechaNacimientoTexto = format(date, 'MM/dd/yyyy', { locale: es }); // Convertir Date a texto con el formato deseado
+                                        setDatosEmpresaSupervisor({ ...datosEmpresaSupervisor, [campo]: fechaNacimientoTexto });
+                                    }}
+                                    dateFormat="MM/dd/yyyy"
+                                    className="form-control"
+                                    showYearDropdown // Mostrar el selector de año
+                                    scrollableYearDropdown // Hacer que el selector de año sea desplazable
+                                    yearDropdownItemNumber={100} // Mostrar 15 años a la vez
+                                    yearDropdownItem={getYearRange()} // Rango de años desde el año actual hasta 100 años atrás
+                                    
+                                    locale={es} // Establecer el locale español
+                                />
+                            ) : (
+                                <Form.Control
+                                    type="text"
+                                    placeholder={`Ingrese ${campo}`}
+                                    value={valor}
+                                    onChange={(e) => setDatosAlumno({ ...datosAlumno, [campo]: e.target.value })}
+                                />
+                            )}
                         </Form.Group>
                     </div>
                 ))}

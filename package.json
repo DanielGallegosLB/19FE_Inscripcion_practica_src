@@ -12,9 +12,9 @@
         "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview",
         "start": "concurrently \"npm run backend\" \"npm run frontend\"",
-        "backend": "cd backend && nodemon server.js",
+        "backend": "cd \"D:/19 backend\" && nodemon server.js",
         "backendnode": "cd backend && node server.js",
-        "frontend": "cd frontend && npm run dev",
+        "frontend": "npm run dev",
         "predeploy": "npm run build",
         "deploy": "gh-pages -d dist"
     },
@@ -38,6 +38,7 @@
         "nodemon": "^3.0.1",
         "react": "^18.2.0",
         "react-bootstrap": "^2.9.0",
+        "react-datepicker": "^6.3.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.18.0",
         "uuid": "^9.0.1"
