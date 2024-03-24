@@ -50,11 +50,34 @@ function IniciarSesion() {
         const perfil = data.PERFIL;
         const id = data._id;
         const rut = data.RUT;
+        const perfil2 = perfil[0];
 
         setAuth({ id, rut, perfil, accessToken });
         setRut('');
         setPwd('');
-        navigate(from, { replace: true });
+        console.log("Perfil:" + perfil2)
+        switch (perfil2) {
+          case "Administrador":
+            navigate("/portaladmin", { replace: true });
+            break;
+          case "Alumno":
+            console.log("Alumno")
+            navigate("/portalalumno", { replace: true });
+            break;
+          case "Supervisor":
+            navigate("/portalsupervisor", { replace: true });
+            break;
+          case "Profesor":
+            navigate("/portalprofesor", { replace: true });
+            break;
+          default:
+            console.log("Perfil no válido")
+            console.log(perfil2)
+            // En caso de perfil desconocido o no manejado
+            setErrMsg('Perfil de usuario no válido');
+            break;
+        }
+
       } else if (response.status === 404) {
         setErrMsg('Usuario no encontrado');
       } else {

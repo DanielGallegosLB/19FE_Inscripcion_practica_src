@@ -110,6 +110,7 @@ const Registrarse = () => {
                             <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
                         </label>
+                        
                         <input
                             type="text"
                             id="username"
@@ -127,9 +128,6 @@ const Registrarse = () => {
                             <FontAwesomeIcon icon={faInfoCircle} />
                             Solo números permitidos para el RUT.
                         </p>
-
-
-                        
 
                         <label htmlFor="password">
                             Contraseña:

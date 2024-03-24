@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { API } from "./../apiSelection";
 import { useAuth } from "../hooks/useAuth";
 import { NavbarPortalAlumno } from "./NavbarPortalAlumno";
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import es from 'date-fns/locale/es'
 import { format } from 'date-fns'
+import DatePicker, { registerLocale } from "react-datepicker";
+import es from "date-fns/locale/es"; // the locale you want
+registerLocale("es", es); // register it with the name you want
+
 
 function FormAlumnos() {
     const auth = useAuth();
@@ -27,6 +29,23 @@ function FormAlumnos() {
         SEDE: "",
     });
 
+    const handleChangeAlumno = (campo, valor) => {
+        // Realiza la validación según el campo
+        let newValue = valor;
+        if (campo === 'TELÉFONO' ) {
+            // Permitir solo números y máximo 9 caracteres
+            newValue = valor.replace(/\D/g, '').slice(0, 9);
+        }
+    
+        // Si el campo es SEDE, llama a la función handleChangeSede
+        if (campo === 'SEDE') {
+            handleChangeSede(valor);
+        } else {
+            // Actualiza los datos del alumno
+            setDatosAlumno({ ...datosAlumno, [campo]: newValue });
+        }
+    };
+
     const [datosProfesor, setDatosProfesor] = useState({
         NOMBRES: "",
         APELLIDO_PATERNO: "",
@@ -37,6 +56,17 @@ function FormAlumnos() {
         ESCUELA: "",
         CARRERA: "",
     });
+
+    const handleChangeProfesor = (campo, valor) => {
+        // Realiza la validación según el campo
+        let newValue = valor;
+        if (campo === 'TELÉFONO') {
+            // Permitir solo números y máximo 9 caracteres
+            newValue = valor.replace(/\D/g, '').slice(0, 9);
+        }
+        // Actualiza los datos del profesor
+        setDatosProfesor({ ...datosProfesor, [campo]: newValue });
+    };
 
     const [datosEmpresaSupervisor, setDatosEmpresaSupervisor] = useState({
         NOMBRE: "",
@@ -53,6 +83,17 @@ function FormAlumnos() {
         FECHA_INICIO: "",
         FECHA_TERMINO: "",
     });
+
+    const handleChangeSupervisor = (campo, valor) => {
+        // Realiza la validación según el campo
+        let newValue = valor;
+        if (campo === 'TELÉFONO' || campo === 'TELEFONO_SUPERVISOR') {
+            // Permitir solo números y máximo 9 caracteres
+            newValue = valor.replace(/\D/g, '').slice(0, 9);
+        }
+        // Actualiza los datos del supervisor
+        setDatosEmpresaSupervisor({ ...datosEmpresaSupervisor, [campo]: newValue });
+    };
 
     useEffect(() => {
         setRut(auth.rut || localStorage.getItem("rut"));
@@ -141,11 +182,38 @@ function FormAlumnos() {
     const capitalizeFirstLetter = (string) => {
         return string.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
     };
+    const handleChange = (campo, valor) => {
+        // Realiza la validación según el campo
+        let newValue = valor;
+        if (campo === 'TELÉFONO') {
+            // Permitir solo números y máximo 9 caracteres
+            newValue = valor.replace(/\D/g, '').slice(0, 9);
+        }
+        // Actualiza los datos del alumno
+        setDatosAlumno({ ...datosAlumno, [campo]: newValue });
+    };
+
+    const [sedes, setSedes] = useState([
+        "Santiago, Providencia",
+        "Santiago, Santiago Centro",
+        "Santiago, Maipú",
+        "Santiago, La Florida",
+        "Viña del Mar, Los Castaños",
+        "Concepción, Chacabuco",
+        "Concepción, El Boldal",
+    ]);
+
+    const handleChangeSede = (valor) => {
+    // Actualiza los datos del alumno con el valor de la sede seleccionada
+    setDatosAlumno({ ...datosAlumno, SEDE: valor });
+};
+    
 
     return (
         <Fragment>
             <NavbarPortalAlumno />
             <div className="container">
+
             <h4>Datos Alumno</h4>
             <div className="row">
                 {Object.entries(datosAlumno).map(([campo, valor]) => (
@@ -168,12 +236,34 @@ function FormAlumnos() {
                                     maxDate={new Date()} // Establecer la fecha máxima como la fecha actual
                                     locale={es} // Establecer el locale español
                                 />
+                            ) : campo === 'SEDE' ? (
+                                <Form.Select
+                                    value={datosAlumno.SEDE}
+                                    onChange={(e) => handleChangeAlumno('SEDE', e.target.value)}
+                                >
+                                    <option value="">Seleccione una sede</option>
+                                    {sedes.map((sede, index) => (
+                                        <option key={index} value={sede}>{sede}</option>
+                                    ))}
+                                    
+                                </Form.Select>
+                            ) : campo === 'REGIMEN' ? (
+                                <Form.Select
+                                    value={datosAlumno.REGIMEN}
+                                    onChange={(e) => handleChangeAlumno('REGIMEN', e.target.value)}
+                                >
+                                    <option value="">Seleccione un régimen</option>
+                                    <option value="diurna">Diurna</option>
+                                    <option value="vespertina">Vespertina</option>
+                                    <option value="Executive">Executive</option>
+                                    <option value="Executive Online">Executive Online</option>
+                                </Form.Select>
                             ) : (
                                 <Form.Control
-                                    type="text"
-                                    placeholder={`Ingrese ${capitalizeFirstLetter(campo)}`}
+                                    type={campo === 'TELÉFONO' ? "tel" : "text"}
                                     value={valor}
-                                    onChange={(e) => setDatosAlumno({ ...datosAlumno, [campo]: e.target.value })}
+                                    onChange={(e) => handleChangeAlumno(campo, e.target.value)}
+                                    pattern={campo === 'TELÉFONO' ? "[0-9]{9}" : undefined}
                                 />
                             )}
                         </Form.Group>
@@ -181,19 +271,17 @@ function FormAlumnos() {
                 ))}
             </div>
 
-
-
             <h4>Datos Profesor</h4>
             <div className="row">
                 {Object.entries(datosProfesor).map(([campo, valor]) => (
                     <div key={campo} className="col-sm-6 col-md-4 col-lg-3">
-                        <Form.Group className="mb-3">
-                            <Form.Label>{campo}</Form.Label>
+                        <Form.Group className="mb-1">
+                        <Form.Label className="mb-0">{capitalizeFirstLetter(campo)}</Form.Label>
                             <Form.Control
-                                type="text"
-                                placeholder={`Ingrese ${campo}`}
+                                type={campo === 'TELÉFONO' ? "tel" : "text"}
                                 value={valor}
-                                onChange={(e) => setDatosProfesor({ ...datosProfesor, [campo]: e.target.value })}
+                                onChange={(e) => handleChangeProfesor(campo, e.target.value)}
+                                pattern={campo === 'TELÉFONO' ? "[0-9]{9}" : undefined}
                             />
                         </Form.Group>
                     </div>
@@ -204,29 +292,45 @@ function FormAlumnos() {
                 {Object.entries(datosEmpresaSupervisor).map(([campo, valor]) => (
                     <div key={campo} className="col-sm-6 col-md-4 col-lg-3">
                         <Form.Group className="mb-3">
-                            <Form.Label>{campo}</Form.Label>
+                        <Form.Label className="mb-0">{capitalizeFirstLetter(campo)}</Form.Label>
                             {campo === 'FECHA_TERMINO' ? (
                                 <DatePicker
                                     selected={valor} // valor de fecha seleccionado
                                     onChange={(date) => {
-                                        const fechaNacimientoTexto = format(date, 'MM/dd/yyyy', { locale: es }); // Convertir Date a texto con el formato deseado
+                                        const fechaNacimientoTexto = format(date, 'MM-dd-yyyy', { locale: es }); // Convertir Date a texto con el formato deseado
                                         setDatosEmpresaSupervisor({ ...datosEmpresaSupervisor, [campo]: fechaNacimientoTexto });
                                     }}
-                                    dateFormat="MM/dd/yyyy"
+                                    locale="es"
+                                    dateFormat="MM-dd-yyyy"
                                     className="form-control"
                                     showYearDropdown // Mostrar el selector de año
                                     scrollableYearDropdown // Hacer que el selector de año sea desplazable
                                     yearDropdownItemNumber={100} // Mostrar 15 años a la vez
                                     yearDropdownItem={getYearRange()} // Rango de años desde el año actual hasta 100 años atrás
-                                    
-                                    locale={es} // Establecer el locale español
+                                    preventOpenOnEnter 
+                                />
+                            ) : campo === 'FECHA_INICIO' ? (
+                                <DatePicker
+                                    selected={valor} // valor de fecha seleccionado
+                                    onChange={(date) => {
+                                        const fechaNacimientoTexto = format(date, 'MM-dd-yyyy', { locale: es }); // Convertir Date a texto con el formato deseado
+                                        setDatosEmpresaSupervisor({ ...datosEmpresaSupervisor, [campo]: fechaNacimientoTexto });
+                                    }}
+                                    locale="es"
+                                    dateFormat="MM-dd-yyyy"
+                                    className="form-control"
+                                    showYearDropdown // Mostrar el selector de año
+                                    scrollableYearDropdown // Hacer que el selector de año sea desplazable
+                                    yearDropdownItemNumber={100} // Mostrar 15 años a la vez
+                                    yearDropdownItem={getYearRange()} // Rango de años desde el año actual hasta 100 años atrás
+                                    preventOpenOnEnter 
                                 />
                             ) : (
                                 <Form.Control
-                                    type="text"
-                                    placeholder={`Ingrese ${campo}`}
+                                    type={campo === 'TELÉFONO' ? "tel" : "text"}
                                     value={valor}
-                                    onChange={(e) => setDatosAlumno({ ...datosAlumno, [campo]: e.target.value })}
+                                    onChange={(e) => handleChangeSupervisor(campo, e.target.value)}
+                                    pattern={campo === 'TELÉFONO' ? "[0-9]{9}" : undefined}
                                 />
                             )}
                         </Form.Group>

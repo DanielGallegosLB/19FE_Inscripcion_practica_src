@@ -28,7 +28,7 @@ import { PortalSupervisor } from './components/PortalSupervisor.jsx';
 import { MiPerfil } from './components/MiPerfil.jsx';
 import { ProfilesCreate } from './components/ProfilesCreate.jsx';
 import { PortalAdmin } from './components/PortalAdmin.jsx';
-
+import { RegistrarSupervisor } from './components/RegistrarSupervisor.jsx';
 
 export default function App() {
   return (
@@ -40,6 +40,8 @@ export default function App() {
         <Route path="/registrarse" element={<Registrarse />} />
         <Route path="unauthorized" element={<Unauthorized />} />
         <Route path="/" element={<Home />} />
+        <Route path="/registrar-supervisor" element={<RegistrarSupervisor />} />
+
 
         {/* Privadas */}
         <Route path="/formatos/manejar" element={<CargarFormatos />} />
