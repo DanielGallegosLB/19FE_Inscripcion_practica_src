@@ -1,7 +1,7 @@
 const localAPI = "http://localhost:3001";
 const remoteAPI1 = "https://one9backend.onrender.com";
 
-const APIs = [localAPI, remoteAPI1];
+const APIs = [remoteAPI1];
 
 async function isAnswering(API) {
   try {
