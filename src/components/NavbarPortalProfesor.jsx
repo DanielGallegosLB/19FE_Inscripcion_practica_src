@@ -6,7 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 const NavbarPortalProfesor = () => {
   const { auth } = useAuth();
   return (
-    <Navbar bg="dark" variant="dark">
+    <Navbar bg="dark" variant="dark" style={{ width: '100%', margin: '0 20px' }} className="justify-content-center">
       <Navbar.Brand>UDLA</Navbar.Brand>
       <Nav className="mr-auto">
       <Nav.Item>
