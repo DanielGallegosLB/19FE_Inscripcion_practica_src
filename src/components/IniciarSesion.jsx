@@ -157,6 +157,13 @@ function IniciarSesion() {
           <Link to="/registrarse">Registrarse</Link>
         </span>
       </p>
+      <p>
+        ¿Eres un supervisor?
+        <br />
+        <span className="line">
+          <Link to="/iniciar-sesion-supervisor">Iniciar Sesión como Supervisor</Link>
+        </span>
+      </p>
     </section>
   );
 }

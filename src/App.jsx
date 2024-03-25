@@ -29,6 +29,7 @@ import { MiPerfil } from './components/MiPerfil.jsx';
 import { ProfilesCreate } from './components/ProfilesCreate.jsx';
 import { PortalAdmin } from './components/PortalAdmin.jsx';
 import { RegistrarSupervisor } from './components/RegistrarSupervisor.jsx';
+import { IniciarSesionSupervisor } from './components/IniciarSesionSupervisor.jsx';
 
 export default function App() {
   return (
@@ -41,6 +42,7 @@ export default function App() {
         <Route path="unauthorized" element={<Unauthorized />} />
         <Route path="/" element={<Home />} />
         <Route path="/registrar-supervisor" element={<RegistrarSupervisor />} />
+        <Route path="/iniciar-sesion-supervisor" element={<IniciarSesionSupervisor />} />
 
 
         {/* Privadas */}
@@ -61,7 +63,7 @@ export default function App() {
         <Route path="/portalprofesor/curso" element={<CursoMostrar />} />
         <Route path="/portalprofesor/curso/crear" element={<CursoCrear />} />
         <Route path="/portalalumno" element={<PortalAlumno />} />
-        <Route path="/portalsupervisor" element={<PortalProfesor />} />
+        <Route path="/portalsupervisor" element={<PortalSupervisor />} />
         <Route path="/portaladmin" element={<PortalAdmin />} />
         <Route path="/miperfil" element={<MiPerfil />} />
 

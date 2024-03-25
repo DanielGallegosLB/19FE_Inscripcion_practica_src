@@ -29,13 +29,13 @@ useEffect(() => {
 }, []);
 
     return (
-      <div>
+      <Fragment>
        <NavbarPortalProfesor />
         <div className="content">
           <h1>Bienvenido al Portal del Profesor</h1>
           {/* Contenido específico del portal del profesor */}
         </div>
-      </div>
+      </Fragment>
     );
   }
 

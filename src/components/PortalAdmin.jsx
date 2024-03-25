@@ -5,13 +5,13 @@ import { NavbarPortalAdmin } from "./NavbarPortalAdmin.jsx";
 
 function PortalAdmin() {
   return (
-    <div>
+    <Fragment>
       <NavbarPortalAdmin />
       <div className="content">
         <h1>Bienvenido al Portal del Administrador</h1>
         {/* Contenido específico del portal del administrador */}
       </div>
-    </div>
+    </Fragment>
   );
 }
 

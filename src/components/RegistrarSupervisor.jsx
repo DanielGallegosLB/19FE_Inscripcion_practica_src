@@ -14,6 +14,7 @@ const RegistrarSupervisor = () => {
     const errorRef = useRef();
 
     const [correo, setCorreo] = useState('');
+    const [rutAlumno, setRutAlumno] = useState("");
     const [correoValido, setCorreoValido] = useState(false); 
 
     const [pwd, setpwd] = useState('');
@@ -33,39 +34,56 @@ const RegistrarSupervisor = () => {
       }, [correoValido]);
 
 
-    const handleSubmit = async (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Validar el formato del correo electrónico
         if (!SUPERVISOR_EMAIL_REGEX.test(correo)) {
-            setErrMsg('Correo electrónico inválido');
+            setErrMsg("Correo electrónico inválido");
             return;
         }
 
+        // Validar longitud mínima de la contraseña
         if (pwd.length < 6) {
-            setErrMsg('La contraseña debe tener al menos 6 caracteres');
+            setErrMsg("La contraseña debe tener al menos 6 caracteres");
             return;
         }
 
+        // Validar que las contraseñas coincidan
         if (pwd !== confirmarContraseña) {
-            setErrMsg('Las contraseñas no coinciden');
+            setErrMsg("Las contraseñas no coinciden");
             return;
         }
 
+        // Si todas las validaciones pasan, enviar la solicitud para crear el supervisor
         try {
-            const response = await fetch(CREATE_SUPERVISOR_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ correo, contraseña: pwd }),
+            const response = await fetch(API+"/supervisores/crear", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ CORREO: correo, CONTRASEÑA: pwd, RUTA: rutAlumno })
             });
+            console.log(response);
+            console.log(rutAlumno)
 
-            if (response.status === 200) {
+            if (response.status === 201) {
+                // Supervisor creado exitosamente
                 setSuccess(true);
+            } else if (response.status === 409) {
+                // Ya existe un supervisor con este correo electrónico
+                const data = await response.json();
+                setErrMsg('Error al crear supervisor: ' + data.message);
+            } else if (response.status === 500) {
+                // Error interno del servidor
+                setErrMsg('Error interno del servidor al crear supervisor');
             } else {
-                setErrMsg('Error al registrar el supervisor');
+                // Otro código de estado no esperado
+                setErrMsg('Error al crear supervisor: ' + response.statusText);
             }
         } catch (error) {
-            console.error('Error al registrar el supervisor:', error);
-            setErrMsg('Error al registrar el supervisor');
+            console.error("Error al crear supervisor:", error.message);
+            // Aquí podrías mostrar un mensaje de error al usuario
         }
     };
 
@@ -83,7 +101,10 @@ const RegistrarSupervisor = () => {
           });
           
           if (response.status === 200) {
+            const data = await response.json();
             setCorreoValido(true); // El correo es válido
+            console.log(data.rutAlumno)
+            setRutAlumno(data.rutAlumno);
           } else if (response.status === 404) {
             setCorreoValido(false); // El correo no es válido
           } else {
