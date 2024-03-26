@@ -10,6 +10,7 @@ function IniciarSesionSupervisor() {
   const pwdRef = useRef();
   const errRef = useRef();
   const { setAuth } = useAuth();
+  const { auth } = useAuth();
 
   const [correo, setCorreo] = useState('');
   const [pwd, setPwd] = useState('');

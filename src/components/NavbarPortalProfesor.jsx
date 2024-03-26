@@ -18,7 +18,7 @@ const NavbarPortalProfesor = () => {
         <Nav.Link as={Link} to="/iniciar-sesion">
           Cerrar Sesión
         </Nav.Link>
-        <Nav.Link as={Link} to="/">
+        <Nav.Link as={Link} to="/portalprofesor">
           Inicio
         </Nav.Link>
         <Nav.Link as={Link} to="/portalprofesor/curso">

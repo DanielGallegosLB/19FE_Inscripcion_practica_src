@@ -88,7 +88,7 @@ function SubirInforme() {
       // Obtener el nombre del archivo
       const fileName = file.name;
       let userRut = auth.rut;
-      console.log("userRut: " + userRut)
+      
 
 
 
@@ -202,9 +202,6 @@ function SubirInforme() {
     <Fragment>
       <NavbarPortalAlumno />
       <div className="content">
-      <Button variant="primary" onClick={() => navigate(-1)}>
-        Volver
-      </Button>
       <h1>Subir informe de práctica</h1>
 
       <div>

@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Button, Form, Table, Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "./../apiSelection";
 import { useAuth } from "../hooks/useAuth";
 import { NavbarPortalProfesor } from "./NavbarPortalProfesor";
 import { set } from "mongoose";
+import { FaSearch } from "react-icons/fa";
 
 
 function CursoMostrar() {
@@ -19,6 +20,12 @@ function CursoMostrar() {
   const navigate = useNavigate();
   const { auth } = useAuth();
   const [rutprofesor, setRutprofesor] = useState('');
+  const [rutBusqueda, setRutBusqueda] = useState("");
+  const [alumnoEncontrado, setAlumnoEncontrado] = useState(null);
+  const [alumnosCoincidentes, setAlumnosCoincidentes] = useState([]);
+  const [alumnoSeleccionado, setAlumnoSeleccionado] = useState(null);
+  const [results, setResults] = useState([]);
+  const [dropdownAbierto, setDropdownAbierto] = useState(false);
 
   const getCurso = async () => {
     try {
@@ -50,12 +57,6 @@ function CursoMostrar() {
       handleActualizarInformes();
     }
   }, [curso, actualizarInformes]);
-
-
-
-
-
-
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -117,6 +118,42 @@ function CursoMostrar() {
       alert('Error de red al enviar la solicitud.');
     }
   };
+
+  const getAlumnos = (rut) => {
+    fetch(`${API}/usuarios/obtenerAlumnos`)
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Hubo un problema con la solicitud.');
+        }
+        return response.json();
+    })
+    .then((json) => {
+        if (Array.isArray(json)) {
+            const results = json.filter((alumno) => {
+                return rut && alumno && alumno.RUT && alumno.RUT.includes(rut);
+            });
+            setResults(results);
+        } else {
+            console.error('El servidor no devolvió un array JSON.');
+        }
+    })
+    .catch((error) => {
+        console.error('Error al obtener alumnos:', error);
+    });
+};
+
+
+  const handleSeleccionarAlumno = (alumno) => {
+    const rutSeleccionado = alumno.RUT;
+    setRutBusqueda(rutSeleccionado)
+  };
+
+  
+
+  const handleSearchChange = (value) => {
+    setRutBusqueda(value);
+    getAlumnos(value);
+  }
 
   /*
   Buscar informe por rut 
@@ -245,10 +282,10 @@ function CursoMostrar() {
         }
       }
 
-      
+
     } catch (error) {
-      
-      
+
+
     }
   };
 
@@ -268,7 +305,7 @@ function CursoMostrar() {
       });
 
       if (response.ok) {
-      
+
         // Puedes actualizar la lista de informes después de la calificación si es necesario
         setActualizarInformes(true);
       } else {
@@ -281,25 +318,30 @@ function CursoMostrar() {
     }
   };
 
+  const handleInputFocus = () => {
+    setDropdownAbierto(true); // Abre el dropdown cuando el input obtiene foco
+  };
+
   const handleSolicitarEvaluación = async () => {
-  
+
   }
 
   return (
-    <div className="container my-1">
+    <Fragment >
       <NavbarPortalProfesor />
 
+      <div className="container-fluid">
       {curso ? (
         <div>
           <div className="d-sm-block">
             <p><strong>Nombre:</strong> {curso.NOMBRE}</p>
             <p><strong>Profesor:</strong> {curso.PROFESOR}</p>
-            <p><strong>Rut del Profesor:</strong> {curso.RUTPROFESOR}</p>
             <p><strong>NRC:</strong> {curso.NRC}</p>
             <p><strong>ACI:</strong> {curso.ACI}</p>
             <p><strong>Periodo:</strong> {curso.PERIODO}</p>
           </div>
-          <h3>Lista de Alumnos:</h3>
+          <h3>Alumnos:</h3>
+          
           <Table responsive striped bordered hover size="sm">
             <thead>
               <tr>
@@ -388,9 +430,35 @@ function CursoMostrar() {
               )}
             </tbody>
           </Table>
-          <h1>Subir Archivo CSV</h1>
+          <div className="input-wrapper" style={{ backgroundColor: "white", width: "100%", borderRadius: "10px", height: "2.5rem", padding: "0 15px", boxShadow: "0 0 8px #ddd", display: "flex", alignItems: "center", position: "relative" }}>
+              <FaSearch id="search-icon" style={{ color: "royalblue" }} />
+              <input 
+                  type="text" 
+                  placeholder="Agregar Alumno por RUT" 
+                  value={rutBusqueda} 
+                  onChange={(e) => handleSearchChange(e.target.value)} 
+                  onFocus={handleInputFocus}
+                  style={{ backgroundColor: "transparent", border: "none", height: "100%", fontSize: "1.25rem", width: "100%", marginLeft: "5px", color: "black", outline: "none" }}
+              />
+              {
+                  dropdownAbierto && results.length > 0 && (
+                      <div className="results-list" style={{ position: "absolute", top: "calc(100% + 5px)", left: "0", width: "100%", backgroundColor: "white", boxShadow: "0px 0px 8px #ddd", borderRadius: "10px", maxHeight: "300px", overflowY: "auto" }}>
+                          {results.map((alumno, index) => (
+                              <div className="search-result" key={index}  onClick={() => { handleSeleccionarAlumno(alumno); setDropdownAbierto(false); }} style={{ boxSizing: "border-box", margin: "0px", padding: "10px 20px", borderBottom: "1px solid #ddd", fontFamily: "Helvetica, sans-serif", cursor: "pointer" }}>
+                                  {alumno.RUT}
+                              </div>
+                          ))}
+                      </div>
+                  )
+              }
+              <div style={{ position: "absolute", right: "-10px", marginRight: "0px", bottom: "0px" }}> {/* Ajuste de posición del botón */}
+                  <button style={{ backgroundColor: "green", color: "white", border: "none", borderRadius: "10Px", padding: "0.5rem 1rem", cursor: "pointer" }} onClick={() => handleAgregarAlCurso(rutSeleccionado)}>+</button>
+              </div>
+          </div>
+
+          
           <input type="file" accept=".csv" onChange={handleFileChange} />
-          <button onClick={handleFileUpload}>Subir</button>
+          <button onClick={handleFileUpload}>Subir CSV</button>
 
           <div>
             <h1>
@@ -401,31 +469,31 @@ function CursoMostrar() {
             </Button>
 
             <Table responsive striped bordered hover size="sm">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Apellido Paterno</th>
-                <th>Apellido Materno</th>
-                <th>RUT</th>
-                <th>Evaluación</th>
-              </tr>
-            </thead>
-            <tbody>
-              {curso && curso.ALUMNOS && curso.ALUMNOS.length > 0 ? (
-                curso?.ALUMNOS?.map((alumno, index) => (
-                  <tr key={index}>
-                    <td>{alumno.NOMBRES}</td>
-                    <td>{alumno.APELLIDO_PATERNO}</td>
-                    <td>{alumno.APELLIDO_MATERNO}</td>
-                    <td>{alumno.RUT}</td>
-                    <td>
-                    </td>
-                  </tr>
-                ))) : (<tr><td colSpan="19">No hay alumnos en este curso.</td></tr>
-              )}
-            </tbody>
-          </Table>
-            </div>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido Paterno</th>
+                  <th>Apellido Materno</th>
+                  <th>RUT</th>
+                  <th>Evaluación</th>
+                </tr>
+              </thead>
+              <tbody>
+                {curso && curso.ALUMNOS && curso.ALUMNOS.length > 0 ? (
+                  curso?.ALUMNOS?.map((alumno, index) => (
+                    <tr key={index}>
+                      <td>{alumno.NOMBRES}</td>
+                      <td>{alumno.APELLIDO_PATERNO}</td>
+                      <td>{alumno.APELLIDO_MATERNO}</td>
+                      <td>{alumno.RUT}</td>
+                      <td>
+                      </td>
+                    </tr>
+                  ))) : (<tr><td colSpan="19">No hay alumnos en este curso.</td></tr>
+                )}
+              </tbody>
+            </Table>
+          </div>
         </div>
 
       ) : (
@@ -436,9 +504,10 @@ function CursoMostrar() {
           </Button>
         </div>
       )}
+      </div>
 
 
-    </div>
+    </Fragment>
   );
 }
 
