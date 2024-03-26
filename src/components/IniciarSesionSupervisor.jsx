@@ -97,7 +97,14 @@ function IniciarSesionSupervisor() {
       <p>
         ¿No tienes una cuenta?<br />
         <span className="line">
-          <Link to="/registrarse-supervisor">Registrarse</Link>
+          <Link to="/registrar-supervisor">Registrarse como Supervisor</Link>
+        </span>
+      </p>
+      <p>
+        ¿No eres supervisor?
+        <br />
+        <span className="line">
+            <Link to="/iniciar-sesion">Iniciar Sesión</Link>
         </span>
       </p>
     </section>

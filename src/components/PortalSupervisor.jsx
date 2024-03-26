@@ -214,7 +214,7 @@ function PortalSupervisor() {
         <h2>Subir Evaluación</h2>
         <div>
           <input type="file" onChange={handleFileChange} />
-          <button onClick={handleFileUpload}>Subir informe</button>
+          <button onClick={handleFileUpload}>Subir Evaluación</button>
         </div>
 
         <h2>Evaluaciones</h2>

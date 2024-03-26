@@ -326,6 +326,34 @@ function CursoMostrar() {
 
   }
 
+  const handleAgregarAlCurso = async (rutAlumno, NRC, ACI, PERIODO) => {
+    try {
+        const response = await fetch(API+'/cursos/agregar-alumno', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                rutAlumno: rutAlumno,
+                NRC: NRC,
+                ACI: ACI,
+                PERIODO: PERIODO
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data.message); // Manejar el mensaje de éxito
+            setActualizarCurso(prevState => !prevState);
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Error al agregar alumno al curso');
+        }
+    } catch (error) {
+        console.error('Error al agregar alumno al curso:', error.message);
+    }
+};
+
   return (
     <Fragment >
       <NavbarPortalProfesor />
@@ -452,7 +480,7 @@ function CursoMostrar() {
                   )
               }
               <div style={{ position: "absolute", right: "-10px", marginRight: "0px", bottom: "0px" }}> {/* Ajuste de posición del botón */}
-                  <button style={{ backgroundColor: "green", color: "white", border: "none", borderRadius: "10Px", padding: "0.5rem 1rem", cursor: "pointer" }} onClick={() => handleAgregarAlCurso(rutSeleccionado)}>+</button>
+                  <button style={{ backgroundColor: "green", color: "white", border: "none", borderRadius: "10Px", padding: "0.5rem 1rem", cursor: "pointer" }} onClick={() => handleAgregarAlCurso(rutBusqueda,curso.NRC,curso.ACI,curso.PERIODO)}>+</button>
               </div>
           </div>
 

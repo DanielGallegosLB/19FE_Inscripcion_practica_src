@@ -10,7 +10,7 @@ import { CargarFormatos } from './components/CargarFormatos';
 import { DescargarFormatos } from './components/DescargarFormatos.jsx';
 import { FormAlumnos } from './components/FormAlumnos.jsx';
 import { IniciarSesion } from './components/IniciarSesion.jsx';
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link,Navigate  } from "react-router-dom";
 import { Layout } from './components/Layout';
 import { Unauthorized } from './components/Unauthorized';
 import { Missing } from './components/Missing.jsx';
@@ -37,10 +37,11 @@ export default function App() {
        
       <Route path="/" element={<Layout />} >
         {/* Publicas */}
+        <Route index element={<Navigate to="/iniciar-sesion" />} />
         <Route path="/iniciar-sesion" element={<IniciarSesion />} />
         <Route path="/registrarse" element={<Registrarse />} />
         <Route path="unauthorized" element={<Unauthorized />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/dev" element={<Home />} />
         <Route path="/registrar-supervisor" element={<RegistrarSupervisor />} />
         <Route path="/iniciar-sesion-supervisor" element={<IniciarSesionSupervisor />} />
 

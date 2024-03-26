@@ -182,7 +182,14 @@ const RegistrarSupervisor = () => {
                         ¿Ya estás registrado?
                         <br />
                         <span className="line">
-                            <Link to="/iniciar-sesion-supervisor">Iniciar Sesión</Link>
+                            <Link to="/iniciar-sesion-supervisor">Iniciar Sesión como Supervisor</Link>
+                        </span>
+                    </p>
+                    <p>
+                        ¿No eres supervisor?
+                        <br />
+                        <span className="line">
+                            <Link to="/iniciar-sesion">Iniciar Sesión</Link>
                         </span>
                     </p>
                 </div>
