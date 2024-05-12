@@ -30,11 +30,11 @@ import { ProfilesCreate } from './components/ProfilesCreate.jsx';
 import { PortalAdmin } from './components/PortalAdmin.jsx';
 import { RegistrarSupervisor } from './components/RegistrarSupervisor.jsx';
 import { IniciarSesionSupervisor } from './components/IniciarSesionSupervisor.jsx';
+import { LandingPage } from './components/LandingPage.jsx';
 
 export default function App() {
   return (
     <Routes>
-       
       <Route path="/" element={<Layout />} >
         {/* Publicas */}
         <Route index element={<Navigate to="/iniciar-sesion" />} />
@@ -44,7 +44,8 @@ export default function App() {
         <Route path="/dev" element={<Home />} />
         <Route path="/registrar-supervisor" element={<RegistrarSupervisor />} />
         <Route path="/iniciar-sesion-supervisor" element={<IniciarSesionSupervisor />} />
-
+        <Route path="/landingPage" element={<LandingPage />} />
+        <Route path="/navbar" element={<Navbar />} />
 
         {/* Privadas */}
         <Route path="/formatos/manejar" element={<CargarFormatos />} />
