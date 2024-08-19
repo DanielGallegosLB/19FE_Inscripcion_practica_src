@@ -1,8 +1,8 @@
 import { inscripcionPractica } from "../assets";
 import { brainwave } from "../assets";
-import { navigation } from "../constans/Index";
+import { navigation } from "../constans";
 import { useLocation } from "react-router-dom";
-import { Button } from "./Button";
+import  Button  from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { useState } from "react";
@@ -70,7 +70,7 @@ const Header = () => {
           href="#singup"
           className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1  lg:block"
         >
-          New acount
+          New account
         </a>
         <Button className={"hidden lg:flex"} href={"#login"}>
           Sign in
