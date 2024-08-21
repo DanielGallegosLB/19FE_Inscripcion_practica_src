@@ -6,6 +6,7 @@ import Heroimg from "../assets/Hero.webp";
 import { BackgroundCircles, BottomLine, Gradient } from "./design/Hero";
 import { heroIcons } from "../constans";
 import { ScrollParallax } from "react-just-parallax";
+import CompanyLogos from "./CompanyLogos";
 
 const Hero = () => {
   const parallaxRef = React.useRef(null);
@@ -20,7 +21,7 @@ const Hero = () => {
       <div className="container relative" ref={parallaxRef}> 
         <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
           <h1 className="h1 text-n-1 mb-6">
-            Facilita el Manejo de Prácticas con Inscripción Práctica
+            Facilita el Manejo de Prácticas con {` `}
             <span className="inline-block relative">
               Inscripción Práctica
               <img
@@ -86,7 +87,9 @@ const Hero = () => {
           </div>
           <BackgroundCircles />
         </div>
+        <CompanyLogos className= "hidden relative z-10 mt-20 lg:block"/>
       </div>
+      <BottomLine />
     </Section>
   );
 };
