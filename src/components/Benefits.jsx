@@ -3,7 +3,7 @@ import Section from "./Section";
 import Heading from "./Heading";
 import { benefits } from "../constans";
 import Arrow from "../assets/svg/Arrow";
-import { GradientLight } from "./design/benefits";
+import { GradientLight } from "./design/Benefits";
 import ClipPath from "../assets/svg/ClipPath";
 
 const Benefits = () => {

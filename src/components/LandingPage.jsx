@@ -5,6 +5,7 @@ import Header from "./Header";
 import ButtonGradient from "../assets/svg/ButtonGradient";
 import Hero from "./Hero";
 import Benefits from "./Benefits";
+import Collaboration from "./Collaboration";
 
 const LandingPage = () => {
   return (
@@ -13,6 +14,7 @@ const LandingPage = () => {
         <Header />
         <Hero />
         <Benefits />
+        <Collaboration />
       </div>
       <ButtonGradient />
     </>
