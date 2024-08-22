@@ -40,33 +40,33 @@ import {
   export const navigation = [
     {
       id: "0",
-      title: "Features",
+      title: "Funciones",
       url: "#features",
     },
     {
       id: "1",
-      title: "Pricing",
+      title: "Precios",
       url: "#pricing",
     },
     {
       id: "2",
-      title: "How to use",
+      title: "Como usar",
       url: "#how-to-use",
     },
     {
       id: "3",
-      title: "Roadmap",
+      title: "Hoja de ruta",
       url: "#roadmap",
     },
     {
       id: "4",
-      title: "New account",
+      title: "Registrarse",
       url: "#signup",
       onlyMobile: true,
     },
     {
       id: "5",
-      title: "Sign in",
+      title: "Iniciar sesión",
       url: "#login",
       onlyMobile: true,
     },
@@ -245,16 +245,16 @@ import {
   export const benefits = [
     {
       id: "0",
-      title: "Ask anything",
-      text: "Lets users quickly find answers to their questions without having to search through multiple sources.",
+      title: "Gestión eficiente",
+      text: "Automatiza tareas repetitivas como la presentación de formularios y la comunicación de seguimiento, haciendo el proceso de gestión más rápido y eficiente.",
       backgroundUrl: "./src/assets/benefits/card-1.svg",
       iconUrl: benefitIcon1,
       imageUrl: benefitImage2,
     },
     {
       id: "1",
-      title: "Improve everyday",
-      text: "The app uses natural language processing to understand user queries and provide accurate and relevant responses.",
+      title: "Administración facilitada",
+      text: "Permite a los profesores y coordinadores gestionar un gran número de estudiantes de manera más organizada y en tiempo real.",
       backgroundUrl: "./src/assets/benefits/card-2.svg",
       iconUrl: benefitIcon2,
       imageUrl: benefitImage2,
@@ -262,16 +262,16 @@ import {
     },
     {
       id: "2",
-      title: "Connect everywhere",
-      text: "Connect with the AI chatbot from anywhere, on any device, making it more accessible and convenient.",
+      title: "Acceso centralizado",
+      text: "Centraliza los datos en un entorno accesible en línea, asegurando que todos los involucrados puedan acceder a la información relevante rápidamente.",
       backgroundUrl: "./src/assets/benefits/card-3.svg",
       iconUrl: benefitIcon3,
       imageUrl: benefitImage2,
     },
     {
       id: "3",
-      title: "Fast responding",
-      text: "Lets users quickly find answers to their questions without having to search through multiple sources.",
+      title: "Mejora en la toma de decisiones",
+      text: "Mantiene un historial completo de prácticas pasadas, permitiendo a la universidad analizar y mejorar programas académicos.",
       backgroundUrl: "./src/assets/benefits/card-4.svg",
       iconUrl: benefitIcon4,
       imageUrl: benefitImage2,
@@ -279,20 +279,20 @@ import {
     },
     {
       id: "4",
-      title: "Ask anything",
-      text: "Lets users quickly find answers to their questions without having to search through multiple sources.",
+      title: "Mejora la experiencia estudiantil",
+      text: "Proporciona un proceso más transparente y eficiente para la solicitud y seguimiento de prácticas, con evaluaciones más rápidas.",
       backgroundUrl: "./src/assets/benefits/card-5.svg",
       iconUrl: benefitIcon1,
       imageUrl: benefitImage2,
     },
     {
       id: "5",
-      title: "Improve everyday",
-      text: "The app uses natural language processing to understand user queries and provide accurate and relevant responses.",
+      title: "Colaboración mejorada",
+      text: "Facilita la comunicación y colaboración entre profesores, estudiantes y supervisores, mejorando la coordinación.",
       backgroundUrl: "./src/assets/benefits/card-6.svg",
       iconUrl: benefitIcon2,
       imageUrl: benefitImage2,
-    },
+    },    
   ];
   
   export const socials = [

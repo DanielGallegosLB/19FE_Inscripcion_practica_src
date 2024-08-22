@@ -37,9 +37,9 @@ const Hero = () => {
             Moderniza y optimiza las prácticas universitarias con nuestra
             plataforma automatizada.
           </p>
-          <Button href="/pricing" white>
+          <Button href="#pricing" white>
             {" "}
-            get started
+            Empezar ahora
           </Button>
         </div>
 
