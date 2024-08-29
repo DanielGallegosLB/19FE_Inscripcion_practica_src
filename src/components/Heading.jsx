@@ -1,5 +1,5 @@
 import React from "react";
-import TagLine from "./Tagline"; // Fix: Change import statement to match correct filename
+import TagLine from "./TagLine"; // Fix: Change import statement to match correct filename
 
 const Heading = ({ className, title, text, tag }) => {
   return (
