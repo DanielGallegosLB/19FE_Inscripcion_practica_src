@@ -68,10 +68,10 @@ function IniciarSesionSupervisor() {
   };
 
   return (
-    <section>
-      <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-      <h1>Iniciar Sesión como Supervisor</h1>
-      <form onSubmit={handleSubmit}>
+    <section className="w-full max-w-md mx-auto p-4 bg-black bg-opacity-40 rounded-md">
+      <p ref={errRef} className={errMsg ? "errmsg text-red-500 font-bold mb-4" : "hidden"} aria-live="assertive">{errMsg}</p>
+      <h1 className="text-3xl font-bold mb-6">Iniciar Sesión como Supervisor</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-md">
         <label htmlFor="correo">Correo Electrónico:</label>
         <input
           type="email"
@@ -81,6 +81,7 @@ function IniciarSesionSupervisor() {
           onChange={(e) => setCorreo(e.target.value)}
           value={correo}
           required
+          className="p-2 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         <label htmlFor="password">Contraseña:</label>
@@ -91,20 +92,21 @@ function IniciarSesionSupervisor() {
           onChange={(e) => setPwd(e.target.value)}
           value={pwd}
           required
+          className="p-2 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <Button type="submit">Iniciar Sesión</Button>
+        <Button type="submit"  className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-700">Iniciar Sesión</Button>
       </form>
-      <p>
+      <p className="mt-4">
         ¿No tienes una cuenta?<br />
         <span className="line">
-          <Link to="/registrar-supervisor">Registrarse como Supervisor</Link>
+          <Link to="/registrar-supervisor" className="text-blue-500 hover:text-blue-400">Registrarse como Supervisor</Link>
         </span>
       </p>
-      <p>
+      <p className="mt-4">
         ¿No eres supervisor?
         <br />
         <span className="line">
-            <Link to="/iniciar-sesion">Iniciar Sesión</Link>
+            <Link to="/iniciar-sesion" className="text-blue-500 hover:text-blue-400">Iniciar Sesión</Link>
         </span>
       </p>
     </section>

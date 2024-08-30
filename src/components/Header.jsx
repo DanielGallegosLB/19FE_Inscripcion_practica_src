@@ -2,14 +2,14 @@ import { inscripcionPractica } from "../assets";
 import { brainwave } from "../assets";
 import { navigation } from "../constans";
 import { useLocation } from "react-router-dom";
-import  Button  from "./Button";
+import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { useState } from "react";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 
 const Header = () => {
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
 
   const toggleNavigation = () => {
@@ -62,17 +62,15 @@ const Header = () => {
               </a>
             ))}
           </div>
-
-          
         </nav>
 
         <a
-          href="#singup"
+          href="/registrarse"
           className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1  lg:block"
         >
           Registrarse
         </a>
-        <Button className={"hidden lg:flex"} href={"#login"}>
+        <Button className={"hidden lg:flex"} href={"/iniciar-sesion"}>
           Iniciar seción
         </Button>
 

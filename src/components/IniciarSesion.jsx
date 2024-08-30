@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useAuth } from '../hooks/useAuth';
-import { Button } from "react-bootstrap";
+import { useAuth } from "../hooks/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import { API } from "./../apiSelection";
 
 function IniciarSesion() {
@@ -29,7 +29,6 @@ function IniciarSesion() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar el RUT
     if (!calcularDigitoVerificador(rut)) {
       setErrMsg('Rut inválido');
       return;
@@ -55,13 +54,12 @@ function IniciarSesion() {
         setAuth({ id, rut, perfil, accessToken });
         setRut('');
         setPwd('');
-        //console.log("Perfil:" + perfil2)
+
         switch (perfil2) {
           case "Administrador":
             navigate("/portaladmin", { replace: true });
             break;
           case "Alumno":
-            //console.log("Alumno")
             navigate("/portalalumno", { replace: true });
             break;
           case "Supervisor":
@@ -71,9 +69,6 @@ function IniciarSesion() {
             navigate("/portalprofesor", { replace: true });
             break;
           default:
-            //console.log("Perfil no válido")
-            //console.log(perfil2)
-            // En caso de perfil desconocido o no manejado
             setErrMsg('Perfil de usuario no válido');
             break;
         }
@@ -90,17 +85,13 @@ function IniciarSesion() {
   };
 
   function calcularDigitoVerificador(rut) {
-    // Limpia el rut de puntos y guiones
     rut = rut.replace(/[.-]/g, '');
 
-    // Separa el rut del dígito verificador
     const rutSinDV = rut.slice(0, -1);
     const digitoVerificador = rut.slice(-1);
 
-    // Invierte el rut
     const rutInvertido = rutSinDV.split('').reverse().join('');
 
-    // Multiplica y suma
     let suma = 0;
     let multiplicador = 2;
 
@@ -109,10 +100,8 @@ function IniciarSesion() {
       multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
     }
 
-    // Calcula el resto
     const resto = suma % 11;
 
-    // Calcula el dígito verificador esperado
     let digitoEsperado;
     if (resto === 0) {
       digitoEsperado = 0;
@@ -126,11 +115,13 @@ function IniciarSesion() {
   }
 
   return (
-    <section>
-      <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-      <h1>Iniciar Sesión</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="rut">Rut:</label>
+    <section className="w-full max-w-md mx-auto p-4 bg-black bg-opacity-40 rounded-md">
+      <p ref={errRef} className={errMsg ? "errmsg text-red-500 font-bold mb-4" : "offscreen"} aria-live="assertive">{errMsg}</p>
+      <h1 className="text-3xl font-bold mb-6">Iniciar Sesión</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-md">
+        <label htmlFor="rut" className="text-white">
+          Rut:
+        </label>
         <input
           type="text"
           id="rut"
@@ -139,29 +130,35 @@ function IniciarSesion() {
           onChange={(e) => setRut(e.target.value)}
           value={rut}
           required
+          className="p-2 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
-        <label htmlFor="password">Contraseña:</label>
+        <label htmlFor="password" className="text-white">
+          Contraseña:
+        </label>
         <input
           type="password"
           id="password"
           onChange={(e) => setPwd(e.target.value)}
           value={pwd}
           required
+          className="p-2 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <Button type="submit">Iniciar Sesión</Button>
+
+        <Button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-700">
+          Iniciar Sesión
+        </Button>
       </form>
-      <p>
-        Necesitas una cuenta?<br />
+      <p className="mt-4">
+        ¿Necesitas una cuenta?<br />
         <span className="line">
-          <Link to="/registrarse">Registrarse</Link>
+          <Link to="/registrarse" className="text-blue-500 hover:text-blue-400">Registrarse</Link>
         </span>
       </p>
-      <p>
-        ¿Eres un supervisor?
-        <br />
+      <p className="mt-4">
+        ¿Eres un supervisor?<br />
         <span className="line">
-          <Link to="/iniciar-sesion-supervisor">Iniciar Sesión como Supervisor</Link>
+          <Link to="/iniciar-sesion-supervisor" className="text-blue-500 hover:text-blue-400">Iniciar Sesión como Supervisor</Link>
         </span>
       </p>
     </section>
