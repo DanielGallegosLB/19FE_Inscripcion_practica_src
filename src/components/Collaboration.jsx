@@ -24,7 +24,9 @@ const Collaboration = () => {
               </li>
             ))}
           </ul>
-          <Button>Pruebalo ahora</Button>
+          <Button href={"mailto:daniel.gallegoslb@gmail.com"}>
+            Pruebalo ahora
+          </Button>
         </div>
         <div className="lg:ml-auto xl:w-[38rem] mt-4">
           <p className="body-2 mb-4 text-n-4 md:mb-16 lg:mb-32 lg:w-[22rem] lg:mx-auto"></p>
