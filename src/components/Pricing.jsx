@@ -38,12 +38,13 @@ const Pricing = () => {
           <RightLine />
         </div>
         <div className="flex justify-center mt-10">
-          <a className="text-xs font-code fond-bold tracking-wider uppercase border-b" href="/pricing">
+          <a
+            className="text-xs font-code fond-bold tracking-wider uppercase border-b"
+            href="mailto:daniel.gallegoslb@gmail.com"
+          >
             Más detalles
           </a>
-
         </div>
-
       </div>
     </Section>
   );

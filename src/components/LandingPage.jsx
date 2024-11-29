@@ -8,6 +8,7 @@ import Benefits from "./Benefits";
 import Collaboration from "./Collaboration";
 import Services from "./Services";
 import Pricing from "./Pricing";
+import Footer from "./Footer";
 
 const LandingPage = () => {
   return (
@@ -19,6 +20,7 @@ const LandingPage = () => {
         <Collaboration />
         <Services />
         <Pricing />
+        <Footer />
       </div>
       <ButtonGradient />
     </>

@@ -74,9 +74,9 @@ export const notificationImages = [notification4, notification3, notification2];
 export const companyLogos = [logoudla, yourlogo, yourlogo, yourlogo, yourlogo];
 
 export const brainwaveServices = [
-  "Photo generating",
-  "Photo enhance",
-  "Seamless Integration",
+  "Gestión Centralizada",
+  "Automatización Inteligente",
+  "Integración Eficiente",
 ];
 
 export const brainwaveServicesIcons = [
@@ -124,21 +124,21 @@ export const roadmap = [
 ];
 
 export const collabText =
-  "With smart automation and top-notch security, it's the perfect solution for teams looking to work smarter.";
+  "Con procesos automatizados y una gestión centralizada, se optimiza el tiempo y los recursos, ofreciendo una solución ideal para equipos que buscan trabajar de manera más inteligente y efectiva.";
 
 export const collabContent = [
   {
     id: "0",
-    title: "Seamless Integration",
+    title: "Eficiencia Operativa Mejorada",
     text: collabText,
   },
   {
     id: "1",
-    title: "Smart Automation",
+    title: "Acceso Unificado a la Información",
   },
   {
     id: "2",
-    title: "Top-notch Security",
+    title: "Simplificación del Seguimiento y la Gestión",
   },
 ];
 
